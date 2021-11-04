@@ -42,18 +42,23 @@
 
 \section{Introduction}
 
-Artificial intelligence is the simulation of human intelligence processes by machines, and especially computer systems. Through techniques such as Machine Learning, Deep Learning, Neural Networks,etc, computer is now able to do speech/facial recognition, natural language processing and many other tasks with ease, even outperforming mankind most of the times. 
+Artificial intelligence is the simulation of human intelligence processes by machines, and especially computer systems. Through techniques such as machine learning, deep learning, neural networks,etc, computer is now able to do speech/facial recognition, natural language processing and many other tasks with ease, even outperforming mankind most of the times. 
 %#
 While AIs are capable of learning specific problems fast under the guidance of computer scientists and programmers, one interesting question arises, can it learn the learning process itself ?
 %# 
-This is what we called Meta-learning. 
-Meta-learning is a subfield of machine learning where automatic learning algorithms are applied to metadata about machine learning process. Meta-learning tries to imitate the human learning process, that one can use previous learning experience to guide the upcoming learning event, in hope of learning more quickly or more concisely. 
-%# 
-With Meta-learning, our AI agents should be able to learning and adapting quickly from only a few provided examples. This ability to learning fast is non-trivial but promising. Current machine learning process, especially deep learning process generally need tremendous data to reach good performance. 
-But Meta-learning allows the AI to learn the more general knowledge among previous tasks, so that accelerate later learning with prior knowledge, rather than learning from scratch.
+This is what we called meta-learning. 
+meta-learning is a subfield of machine learning where automatic learning algorithms are applied to metadata about machine learning process. Meta-learning tries to imitate the human learning process, that one can use previous learning experience to guide the upcoming learning event, in hope of learning more quickly or more concisely. 
 
 
-\section{Median Trick}
+With meta-learning, our AI agents should be able to learning and adapting quickly from only a few provided examples. This ability to learning fast is non-trivial but promising. Current machine learning process, especially deep learning process generally need tremendous data to reach good performance. 
+But meta-learning allows the AI to learn the more general knowledge among previous tasks, so that accelerate later learning with prior knowledge, rather than learning from scratch.
+
+\include{problem.tex}
+\include{algorithms.tex}
+\include{props.tex}
+\include{cases.tex}
+\include{conclusion.tex}
+\section{Problem description}
 So far, we have an algorithm $A$ which estimates in correct range of $\eps$ with probability $\ge 0.9$. Our new algorithm $A^{\ast}$ will output in range of $\eps$ with probability $1-\delta$.
 Algorithm:
 \begin{itemize}
