@@ -21,7 +21,7 @@
   \end{center}
   \vspace*{4mm}
 }
-\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Scribes:\hspace{0.08cm}#4}{Notes #1}}
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{#4}{Notes #1}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -37,12 +37,21 @@
 \def\eps{\ensuremath\epsilon}
 \begin{document}
 
-\lecture{1 -- Median trick}{May 14, 2020}{Instructor:\hspace{0.08cm}\emph{Guoqiang Li}}{\emph{Yifan Zhou}}
+\lecture{1 -- Meta Learning}{May 14, 2021}{Authors:\hspace{0.08cm}\emph{Xuyang Zhao, Yuyang Huang}}
 
 
 \section{Introduction}
 
-Today's lecture has three main topics that we'll go through, i.e. Median Trick (from previous lecture), Distinct element count and Impossibility Results.
+Artificial intelligence is the simulation of human intelligence processes by machines, and especially computer systems. Through techniques such as Machine Learning, Deep Learning, Neural Networks,etc, computer is now able to do speech/facial recognition, natural language processing and many other tasks with ease, even outperforming mankind most of the times. 
+%#
+While AIs are capable of learning specific problems fast under the guidance of computer scientists and programmers, one interesting question arises, can it learn the learning process itself ?
+%# 
+This is what we called Meta-learning. 
+Meta-learning is a subfield of machine learning where automatic learning algorithms are applied to metadata about machine learning process. Meta-learning tries to imitate the human learning process, that one can use previous learning experience to guide the upcoming learning event, in hope of learning more quickly or more concisely. 
+%# 
+With Meta-learning, our AI agents should be able to learning and adapting quickly from only a few provided examples. This ability to learning fast is non-trivial but promising. Current machine learning process, especially deep learning process generally need tremendous data to reach good performance. 
+But Meta-learning allows the AI to learn the more general knowledge among previous tasks, so that accelerate later learning with prior knowledge, rather than learning from scratch.
+
 
 \section{Median Trick}
 So far, we have an algorithm $A$ which estimates in correct range of $\eps$ with probability $\ge 0.9$. Our new algorithm $A^{\ast}$ will output in range of $\eps$ with probability $1-\delta$.
