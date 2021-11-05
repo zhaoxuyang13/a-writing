@@ -7,3 +7,5 @@
 *.fdb_latexmk
 .vscode/
 *.gz
+sample.bbl
+sample.blg
