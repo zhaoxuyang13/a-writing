@@ -49,9 +49,17 @@ While AIs are capable of learning specific problems fast under the guidance of c
 This is what we called meta-learning. 
 meta-learning is a subfield of machine learning where automatic learning algorithms are applied to metadata about machine learning process. Meta-learning tries to imitate the human learning process, that one can use previous learning experience to guide the upcoming learning event, in hope of learning more quickly or more concisely. 
 
-
+In research literature, many perspective of meta-learning can be found, partly because the term is used by different community differently.
+%# 
+Some define meta-learning as a tool to improve learner's performance at solving certain family of tasks, with tasks from it has seen from the family.
 With meta-learning, our AI agents should be able to learning and adapting quickly from only a few provided examples. This ability to learning fast is non-trivial but promising. Current machine learning process, especially deep learning process generally need tremendous data to reach good performance. 
-But meta-learning allows the AI to learn the more general knowledge among previous tasks, so that accelerate later learning with prior knowledge, rather than learning from scratch.
+But meta-learning allows the AI to learn the more general knowledge among previous tasks, so that accelerate later learning with prior knowledge, rather than learning from scratch. This definition may include transfer learning, multi-task learning, few-shot learning, etc. 
+Other perspective may view meta-learning as a way to perform algorithm selection based on dataset features, which is like automated machine learning(AutoML), relieving the programmers from manual process such as data preparation, algorithm selection, hyper-parameter tuning, and architecture search.
+
+In this article, we will describe an meta-learning algorithm aiming at few-shot learning scenario. The trained model need only small amount of training data to be fined-tuned for a new task. This technique has promising performance when applied to image classification problems or recommendation systems.
+%# 1. 介绍该算法的背景，可以解决的问题，适用场景等。
+%# 似乎还需要插一点解决问题，适用场景，现在这块有点单薄，背景有点啰嗦
+
 
 \include{problem.tex}
 \include{algorithms.tex}
