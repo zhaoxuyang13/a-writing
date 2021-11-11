@@ -1,5 +1,23 @@
 \section{Algorithms}
 
-During base learning, an inner (or lower/base) learning algorithm solves a task such as image classification [13], defined by a dataset and objective. During meta-learning, an outer (or upper/meta) algorithm updates the inner learning algorithm such that the model it learns improves an outer objective
+According to (2), two main algorithms to meta learning are MAML and REPTILE. And we will introduce these algorithms below.
 
-this is section 3, describe MAML (+ REPTILE maybe) ?
+\subsection{MAML}
+
+\begin{algorithm}
+  \caption{Model-Agnostic Meta-Learning}
+  \label{MAML}
+  \begin{algorithmic}[1]
+    \REQUIRE $p(\mathcal{T})$: distribution over tasks
+    \REQUIRE $\alpha, \beta$: step size hyperparameters
+    \STATE randomly initialize $\theta$
+    \WHILE {not done}
+    \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
+    \FORALL {$\mathcal{T}_i$}
+    \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ with respect to $K$ examples
+    \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+    \ENDFOR
+    \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$
+    \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
