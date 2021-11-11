@@ -1,7 +1,31 @@
 \section{Problem description}
-
 %# 定义该问题，包含各种概念。
-\subsection{Machine learning}
+
+
+In conventional supervised machine learning, dataset $\mathcal{D} = {(x_1, y_1), . . . ,(x_N , y_N )}$, where $(x_i, y_i)$ is the pair of input data and output classification or regression result, such as (input image, output label), is given to train a predictive model. The predictive model can be formulated as $\hat{y}=f_\theta(x)$, and trained by solving
+\begin{equation}
+  \theta^*=\arg \min_\theta \mathcal{L}(\mathcal{D};\theta,\omega)\tag{1}
+\end{equation}
+where $\mathcal{L}$ is a loss function measuring the error between true labels and those predicted by $f_\theta(x)$. $\theta$ denotes the paramters which are initialized randomly and optimized by gradient descent. $\omega$ denotes the dependence of this function on assuptions of learning methods, such as the choice of optimizer for $\theta$ and the choice of activation function.
 
 \subsection{Few-shot learning}
+When there are enough samples for dataset $\mathcal{D}$, we can achieve ideal result of the model above. However, this may be difficult or even not possible. In order to learn from a limited number of examples with supervised information, a new machine learning paradigm called Few-Shot Learning (FSL) is proposed.
+
+% 这里写的很乱，可以再梳理一下应用场景
+FSL is the problem of making predictions based on a limited number of samples. Specifically, few-shot classification only gives a few labeled examples of each class to learn the classifier. Example applications include image classification, short text sentiment classification, and object recognition.
+Few-shot regression estimates a regression function $f$, only a few input-output example pairs are sampled from this function, where output $y_i$ is the observation value of the dependent variable $y$, and $x_i$ is the input that records the observation value of the independent variable $x$. Example applications include cold-start recommendation. There are various fields and approaches related to FSL, and we will discuss meta learning, which is the application of FSL in conventional supervised machine learning.
+
+\subsection{Meta learning}
+The keypoint of meta learning is how to implement a good machine learning model based on a small number of samples. Humans, in contrast, learn new concepts and skills faster and more effectively. Children who have only seen trees and flowers a few times can distinguish them quickly. People able to ride a bike will most likely find a way to ride a motorcycle fast with little or even no demonstration.
+Inspired by human behaviors, The idea of meta learning is to design a model with an adaption process which happens during test but is exposed to the new task configurations properly. Therefore the model is capable of well adapting to new tasks or environments. This is why meta-learning is known as learning to learn.
+
+As can be seen from formula (1)% 引用公式怎么写
+, we optimize paramter $\theta$ from scratch for every problem $\mathcal{D}$ and define $\omega$ globally while the specification of $\omega$ can greatly affect performance indicators such as accuracy or data efficiency. In meta learning, instead, we can learn from a distribution of tasks rather than from scratch, and learn the learning algorithm rather than pre-specified. Learning how to learn becomes
+\begin{equation}
+  \min_\omega \mathop{\mathbb{E}}_{\mathcal{T}\sim p(\mathcal{T})} \mathcal{L(D};\omega)\tag{2}
+\end{equation}
+where $\mathcal{T}={\mathcal{D,L}}$ defines a task combined with a dataset and loss function and $p(\mathcal{T})$ denotes the distribution of tasks. $\mathcal{L(D};\omega)$ measures the performance of a model trained with $\omega$, which is often referred to as across-task knowledge or meta-knowledge.
+
+
+
 
