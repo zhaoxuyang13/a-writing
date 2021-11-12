@@ -18,20 +18,24 @@ The core idea of MAML is actually very simple. In each iteration step, there wil
 
 The gray branch lines in the figure represent the update direction of $\theta$ on different tasks, and the black line represents the final optimization of the model parameters, which can prevent the parameters from overfitting on a certain task. The last dotted lines represent processes of adaptation to new tasks, which is referred to as the fine-tune of the model parameters.
 
+The gradient-based solution is adaptive to different kinds of learning tasks.The lower surface of the image is a small sample of the image.
+
 \begin{algorithm}
-  \caption{Model-Agnostic Meta-Learning}
+  \caption{MAML for Few-Shot Supervised Learning}
   \label{MAML}
   \begin{algorithmic}[1]
     \REQUIRE $p(\mathcal{T})$: distribution over tasks
     \REQUIRE $\alpha, \beta$: step size hyperparameters
     \STATE randomly initialize $\theta$
     \WHILE {not done}
-    \STATE Sample batch of tasks $\mathcal{T}-i \sim p(\mathcal{T})$
-    \FORALL {$\mathcal{T}-i$}
-    \STATE Evaluate $\nabla-\theta \mathcal{L}-{\mathcal{T}-i} (f-\theta)$ with respect to $K$ examples
-    \STATE Compute adapted parameters with gradient descent: $\theta'-i = \theta - \alpha\nabla-\theta \mathcal{L}-{\mathcal{T}-i} (f-\theta)$
+    \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
+    \FORALL {$\mathcal{T}_i$}
+    \STATE Sample $K$ datapoints $\mathcal{D}=\{x^{(j)}, y^{(j)}\}$ from $\mathcal{T}_i$
+    \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ with respect to $K$ examples
+    \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+    \STATE Sample datapoints $D'_i=\{x^{(j)}, y^{(j)}\}$ from $\mathcal{T}_i$ for the meta-update
     \ENDFOR
-    \STATE Update $\theta \leftarrow \theta - \beta\nabla-\theta \Sigma-{\mathcal{T}-i \sim p(\mathcal{T})}\mathcal{L}-{\mathcal{T}-i} (f-{\theta'-i})$
+    \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$
     \ENDWHILE
   \end{algorithmic}
 \end{algorithm}
