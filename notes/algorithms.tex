@@ -1,8 +1,16 @@
 \section{Algorithms}
+In recent years, methods of meta learning have emerged one after another. Today we mainly introduce one of the methods, which is to learn a good initialization for the parameters, and then use a small amount of updates to train new tasks on the basis of this initialization.
+According to the above introduction, we can realize that: From a macro 
+perspective, meta learning uses tasks as "samples" for learning! So in 
+general, we will divide the data into Meta-train and Meta-test, where 
+Meta-train contains data from multiple tasks, and can be divided into D-train and D-test, which are used for training and testing, respectively.
 
-According to (2), two main algorithms to meta learning are MAML and REPTILE. And we will introduce these algorithms below.
 
 \subsection{MAML}
+Because current machine learning methods all perform gradient updates, and the focus of MAML is on gradient updates, it can also be regarded as a gradient-based meta learning method.
+
+The core idea of MAML is actually very simple: in each iteration step, there will be an initial parameter [formula], which is used to update the gradient of K tasks using D-train and get the corresponding new parameters [formula] of different tasks, and then Use D-test on K tasks to update the global initial parameters [formula]
+
 
 \begin{algorithm}
   \caption{Model-Agnostic Meta-Learning}
@@ -12,12 +20,12 @@ According to (2), two main algorithms to meta learning are MAML and REPTILE. And
     \REQUIRE $\alpha, \beta$: step size hyperparameters
     \STATE randomly initialize $\theta$
     \WHILE {not done}
-    \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
-    \FORALL {$\mathcal{T}_i$}
-    \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ with respect to $K$ examples
-    \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+    \STATE Sample batch of tasks $\mathcal{T}-i \sim p(\mathcal{T})$
+    \FORALL {$\mathcal{T}-i$}
+    \STATE Evaluate $\nabla-\theta \mathcal{L}-{\mathcal{T}-i} (f-\theta)$ with respect to $K$ examples
+    \STATE Compute adapted parameters with gradient descent: $\theta'-i = \theta - \alpha\nabla-\theta \mathcal{L}-{\mathcal{T}-i} (f-\theta)$
     \ENDFOR
-    \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$
+    \STATE Update $\theta \leftarrow \theta - \beta\nabla-\theta \Sigma-{\mathcal{T}-i \sim p(\mathcal{T})}\mathcal{L}-{\mathcal{T}-i} (f-{\theta'-i})$
     \ENDWHILE
   \end{algorithmic}
 \end{algorithm}
