@@ -94,7 +94,25 @@ $$
 
 
 \subsection{Reptile}
-, we describe a new first-order gradient-based meta-learning algorithm called Reptile.
-Like MAML, Reptile learns an initialization for the parameters of a neural network model, such
-that when we optimize these parameters at test time, learning is fast—i.e., the model generalizes
-from a small number of examples from the test task. The Reptile algorithm is as follows:
+Based on FOMAML, we introduce a new first-order gradient-based meta-learning algorithm called Reptile. Closely related to FOMAML, Reptile simply performs stochastic gradient descent (SGD) on each task in a standard way — it does not unroll a computation graph or calculate any second derivatives. This makes Reptile take less computation and memory than MAML. In global update, Reptile no longer calculates the gradient, but implements a soft way by using $\theta'_i$ to find $\theta$. The Reptile algorithm is as follows:
+
+\begin{algorithm}[h]
+  \caption{Reptile}
+  \label{Reptile}
+  \begin{algorithmic}[1]
+    \STATE Initialize $\phi$, the vector of initial parameters
+    \FOR {iteration = 1, 2, ...}
+    \STATE Sample task $\tau$ , corresponding to loss $L_{\tau}$ on weight vectors $\widetilde{\phi} $
+    \STATE Compute $\widetilde{\phi}=U_{\tau}^{k}(\phi)$, denoting k steps of SGD or Adam
+    \STATE Update $\phi \leftarrow \phi+\epsilon(\widetilde{\phi}-\phi) $
+    \ENDFOR
+  \end{algorithmic}
+\end{algorithm}
+
+In the last step, we can treat $(\widetilde{\phi}-\phi)$ as a gradient and plug it into an adaptive algorithm such as Adam instead of simply updating $\phi$ in the direction $\widetilde{\phi}-\phi$.
+
+We can also define a parallel or batch version of the algorithm that
+evaluates on n tasks each iteration and updates the initialization to
+$$\phi \leftarrow \phi + \epsilon \frac{1}{n} \sum_{i=1}^{n}\left(\widetilde{\phi}_{i}-\phi\right)$$
+
+where $\widetilde{\phi}_{i}=U_{\tau_{i}}^{k}(\phi)$; the updated parameters on the $i^{th}$ task.
