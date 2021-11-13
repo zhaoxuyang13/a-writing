@@ -17,7 +17,7 @@ The common loss functions used for supervised classification are mean-squared er
 \end{equation}
 
 \textbf{Loss Function for Supervised Regression}
-Likewise, for few-shot regression problems, we use mean-squared error, the loss takes the form as below:
+Likewise, for few-shot regression problems, we use mean-squared error, the loss takes the form as below: 
 \begin{equation}
     \label{loss-reg}
     \mathcal{L}_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} \parallel f_\phi(x^{(j)} - y^{j})\parallel_2^2 
@@ -65,21 +65,21 @@ We will get K rollouts from $f_\theta$ and task $\mathcal{T}_i, (x_1,a_1,...x_H)
     \caption{MAML for Few-Shot Reinforcement Learning}
     \label{MAML-reinforcement}
     \begin{algorithmic}[1]
-      \REQUIRE $p(\mathcal{T})$: distribution over tasks
-      \REQUIRE $\alpha, \beta$: step size hyperparameters
-      \STATE randomly initialize $\theta$
-      \WHILE {not done}
-      \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
-      \FORALL {$\mathcal{T}_i$}
-      \STATE Sample $K$ trajectories $\mathcal{D}=\{(x_1,a_1,...x_H)\}$ using $f_\theta$ in $\mathcal{T}_i$
-      \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ using $\mathcal{D}$ and $\mathcal{L}_{\mathcal{T}_i}$ in Equation (4)
-      \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
-      \STATE Sample datapoints $D'_i=\{(x_1,a_1,...x_H)\}$ using $f_{\theta'_i}$ in $\mathcal{T}_i$
-      \ENDFOR
-      \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$  using each $D'_i$ and $\mathcal{L}_{\mathcal{T}_i} $ in Equation 4
-      \ENDWHILE
+        \REQUIRE $p(\mathcal{T})$: distribution over tasks
+        \REQUIRE $\alpha, \beta$: step size hyperparameters
+        \STATE randomly initialize $\theta$
+        \WHILE {not done}
+        \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
+        \FORALL {$\mathcal{T}_i$}
+        \STATE Sample $K$ trajectories $\mathcal{D}=\{(x_1,a_1,...x_H)\}$ using $f_\theta$ in $\mathcal{T}_i$
+        \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ using $\mathcal{D}$ and $\mathcal{L}_{\mathcal{T}_i}$ in Equation (4)
+        \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+        \STATE Sample datapoints $D'_i=\{(x_1,a_1,...x_H)\}$ using $f_{\theta'_i}$ in $\mathcal{T}_i$
+        \ENDFOR
+        \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$  using each $D'_i$ and $\mathcal{L}_{\mathcal{T}_i} $ in Equation 4
+        \ENDWHILE
     \end{algorithmic}
-  \end{algorithm}
+\end{algorithm}
 
 
 
