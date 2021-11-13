@@ -36,7 +36,7 @@ The gradient-based solution is adaptive to different kinds of learning tasks. Al
     \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ with respect to $K$ examples
     \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
     \ENDFOR
-    \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$
+    \STATE Update $\theta arrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$
     \ENDWHILE
   \end{algorithmic}
 \end{algorithm}
@@ -51,7 +51,7 @@ $p(\mathcal{T})$. More concretely, the meta-objective is as follows:
 $$\min_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i}) = \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)})$$
 The meta-optimization across tasks is performed via
 stochastic gradient descent (SGD), such that the model parameters $\theta$ are updated as follows:
-$$\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$$
+$$\theta arrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$$
 
 The second gradient update is performed on the query set($D\_test$) in the task, which enhances the generalization of this model and avoids overfitting the support set($D\_train$).
 
@@ -70,7 +70,31 @@ The second gradient update is performed on the query set($D\_test$) in the task,
 %     \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
 %     \STATE Sample datapoints $D'_i=\{x^{(j)}, y^{(j)}\}$ from $\mathcal{T}_i$ for the meta-update
 %     \ENDFOR
-%     \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$
+%     \STATE Update $\theta arrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$
 %     \ENDWHILE
 %   \end{algorithmic}
 % \end{algorithm}
+
+\subsection{FOMAML}
+MAML calculates the gradient twice in each iteration, which means that more calculation time is consumed. In response to this limitation, FOMAML, a variant of MAML, which avoids computing second derivative is proposed.
+
+Our optimization goals in MAML are:
+$$\operatorname{minimize}_{\theta} \mathbb{E}_{\tau}\left[L_{\tau}\left(U_{\tau}^{1}(\theta)\right)\right]$$
+where $U_{\tau}^{k}(\theta)$ means to update the parameters $\theta$ using k samples of task $\tau$, so the gradient is:
+$$g_{MAML}= \frac{\partial}{\partial \theta}\left[L_{\tau}\left(U_{\tau}^{1}(\theta)\right)\right]
+  \\ = U_{\tau}^{1^{\prime}}(\theta) L_{\tau}^{\prime}\left(\theta_{\mathrm{new}}\right)
+$$
+Formula $U_{\tau}^{1^{\prime}}(\theta)=\frac{\partial}{\partial \theta}\left(\theta-\alpha \nabla_{\theta} L_{\tau_{i}}(\theta)\right)$ involves finding the second derivative, so it will be relatively time-consuming.
+
+The method of FOMAML is not to find the secondary gradient, but instead of dividing into K different $\theta'_i$ when performing gradient calculation on K tasks, it uses the gradient calculated by the previous task in the gradient calculation of the next task. The final global gradient update also updates the parameter $\theta'_i$ obtained after calculating K tasks, and the gradient is:
+$$
+  g_{\mathrm{FOMAML}} =\frac{\partial}{\partial \theta_{i}}\left[L_{\tau}\left(U_{\tau}(\theta)\right)\right] \\
+  =L_{\tau}^{\prime}\left(\theta_{i}\right).
+$$
+
+
+\subsection{Reptile}
+, we describe a new first-order gradient-based meta-learning algorithm called Reptile.
+Like MAML, Reptile learns an initialization for the parameters of a neural network model, such
+that when we optimize these parameters at test time, learning is fast—i.e., the model generalizes
+from a small number of examples from the test task. The Reptile algorithm is as follows:
