@@ -6,23 +6,67 @@ In this section, we will discuss how MAML algorithm will be applied to different
 
 In supervised learning regime, few-shot learning is a well-studied topic,where the goal is to learn from a limited number of cases.Few-shot learning is particularly suitable for meta-learning, in that learning speed is an important meta metric of meta-learning. More specifically, cases like function regression, whose goal is to predict the outputs of a continuous-valued function with only a few points from that function, is a typical few-shot learning problem. Similarly, the cold start of user  recommendation systems is also a few-shot learning scenario, due to the limited data from specific users. Other cases including few-shot image classification also exists in practical use.
 
-To apply MAML to supervised learning, we need to first determine the corresponding loss functions, and then replace line-5 of Algorithm-1 with case-specific model evaluation process. For the training-set and testing-set, we can just randomly sample input/output data-points for each supervised case. 
+To apply MAML to supervised learning, we need to first determine the corresponding loss functions, and then replace line-5 of Algorithm-1 with case-specific model evaluation process. For the training-set and testing-set, we can just randomly sample input/output data-points for each supervised case. We use loss functions with training-set to train temporal models, and apply loss functions to testing-set to update our meta-model.
 
 \textbf{Loss Function for Supervised Classification}
 The common loss functions used for supervised classification are mean-squared error(MSE) and cross-entropy, other loss functions might also be used while they are not necessarily relevant with MAML.We use entropy loss for example below:
 \begin{equation}
-    \ell_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} y^{(j)}log{f_\phi}(x^{(j)}) + (1-y^{(j)})log(1-f_\phi(x^{(j)}))
+    \mathcal{L}_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} y^{(j)}log{f_\phi}(x^{(j)}) + (1-y^{(j)})\log(1-f_\phi(x^{(j)}))
     \tag{3}
 \end{equation}
 
 \textbf{Loss Function for Supervised Regression}
 Likewise, for few-shot regression problems, we use mean-squared error, the loss takes the form as below:
 \begin{equation}
-    \ell_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} \parallel f_\phi(x^{(j)} - y^{j} \parallel_2^2 
+    \mathcal{L}_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} \parallel f_\phi(x^{(j)} - y^{j})\parallel_2^2 
     \tag{4}
 \end{equation}
 
-\subsection{MAML for }
+\begin{algorithm}
+  \caption{MAML for Few-Shot Supervised Learning}
+  \label{MAML-supervised}
+  \begin{algorithmic}[1]
+    \REQUIRE $p(\mathcal{T})$: distribution over tasks
+    \REQUIRE $\alpha, \beta$: step size hyperparameters
+    \STATE randomly initialize $\theta$
+    \WHILE {not done}
+    \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
+    \FORALL {$\mathcal{T}_i$}
+    \STATE Sample $K$ datapoints $\mathcal{D}=\{x^{(j)}, y^{(j)}\}$ from $\mathcal{T}_i$
+    \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ using $\mathcal{D}$ and $\mathcal{L}_{\mathcal{T}_i}$ in Equation (2) or (3)
+    \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+    \STATE Sample datapoints $D'_i=\{x^{(j)}, y^{(j)}\}$ from $\mathcal{T}_i$ for the meta-update
+    \ENDFOR
+    \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$ using each $D'_i$ and $\mathcal{L}_{\mathcal{T}_i} $ in Equation 2 or 3
+    \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
+
+
+\subsection{MAML for Reinforcement learning}
+In reinforcement learning, the goal of few-shot meta-learning is enabling fast reinforcement learning  on a new task using only a small amount of experience in the test setting.
+
+
+\begin{algorithm}
+    \caption{MAML for Few-Shot Reinforcement Learning}
+    \label{MAML-reinforcement}
+    \begin{algorithmic}[1]
+      \REQUIRE $p(\mathcal{T})$: distribution over tasks
+      \REQUIRE $\alpha, \beta$: step size hyperparameters
+      \STATE randomly initialize $\theta$
+      \WHILE {not done}
+      \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
+      \FORALL {$\mathcal{T}_i$}
+      \STATE Sample $K$ trajectories $\mathcal{D}=\{(x_1,a_1,...x_H)\}$ using $f_\theta$ in $\mathcal{T}_i$
+      \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ using $\mathcal{D}$ and $\mathcal{L}_{\mathcal{T}_i}$ in Equation (4)
+      \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+      \STATE Sample datapoints $D'_i=\{(x_1,a_1,...x_H)\}$ using $f_{\theta'_i}$ in $\mathcal{T}_i$
+      \ENDFOR
+      \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$  using each $D'_i$ and $\mathcal{L}_{\mathcal{T}_i} $ in Equation 4
+      \ENDWHILE
+    \end{algorithmic}
+  \end{algorithm}
+
 
 
 %# need more subsections ? 
