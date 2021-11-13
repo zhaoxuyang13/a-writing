@@ -6,23 +6,81 @@ In this section, we will discuss how MAML algorithm will be applied to different
 
 In supervised learning regime, few-shot learning is a well-studied topic,where the goal is to learn from a limited number of cases.Few-shot learning is particularly suitable for meta-learning, in that learning speed is an important meta metric of meta-learning. More specifically, cases like function regression, whose goal is to predict the outputs of a continuous-valued function with only a few points from that function, is a typical few-shot learning problem. Similarly, the cold start of user  recommendation systems is also a few-shot learning scenario, due to the limited data from specific users. Other cases including few-shot image classification also exists in practical use.
 
-To apply MAML to supervised learning, we need to first determine the corresponding loss functions, and then replace line-5 of Algorithm-1 with case-specific model evaluation process. For the training-set and testing-set, we can just randomly sample input/output data-points for each supervised case. 
+To apply MAML to supervised learning, we need to first determine the corresponding loss functions, and then replace line-5 of Algorithm-1 with case-specific model evaluation process. For the training-set and testing-set, we can just randomly sample input/output data-points for each supervised case. We use loss functions with training-set to train temporal models, and apply loss functions to testing-set to update our meta-model.
 
 \textbf{Loss Function for Supervised Classification}
 The common loss functions used for supervised classification are mean-squared error(MSE) and cross-entropy, other loss functions might also be used while they are not necessarily relevant with MAML.We use entropy loss for example below:
 \begin{equation}
-    \ell_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} y^{(j)}log{f_\phi}(x^{(j)}) + (1-y^{(j)})log(1-f_\phi(x^{(j)}))
+    \label{loss-class}
+    \mathcal{L}_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} y^{(j)}log{f_\phi}(x^{(j)}) + (1-y^{(j)})\log(1-f_\phi(x^{(j)}))
     \tag{3}
 \end{equation}
 
 \textbf{Loss Function for Supervised Regression}
 Likewise, for few-shot regression problems, we use mean-squared error, the loss takes the form as below:
 \begin{equation}
-    \ell_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} \parallel f_\phi(x^{(j)} - y^{j} \parallel_2^2 
+    \label{loss-reg}
+    \mathcal{L}_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} \parallel f_\phi(x^{(j)} - y^{j})\parallel_2^2 
     \tag{4}
 \end{equation}
 
-\subsection{MAML for }
+And the loss functions described previously \ref{loss-class},\ref{loss-reg} can be directly inserted into equations in general MAML algorithm \ref{MAML} described in Section~\ref{sec:algorithms}.
+We detailed this algorithm in \ref{MAML-supervised}.
+
+\begin{algorithm}
+  \caption{MAML for Few-Shot Supervised Learning}
+  \label{MAML-supervised}
+  \begin{algorithmic}[1]
+    \REQUIRE $p(\mathcal{T})$: distribution over tasks
+    \REQUIRE $\alpha, \beta$: step size hyperparameters
+    \STATE randomly initialize $\theta$
+    \WHILE {not done}
+    \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
+    \FORALL {$\mathcal{T}_i$}
+    \STATE Sample $K$ datapoints $\mathcal{D}=\{x^{(j)}, y^{(j)}\}$ from $\mathcal{T}_i$
+    \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ using $\mathcal{D}$ and $\mathcal{L}_{\mathcal{T}_i}$ in Equation (2) or (3)
+    \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+    \STATE Sample datapoints $D'_i=\{x^{(j)}, y^{(j)}\}$ from $\mathcal{T}_i$ for the meta-update
+    \ENDFOR
+    \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$ using each $D'_i$ and $\mathcal{L}_{\mathcal{T}_i} $ in Equation 2 or 3
+    \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
+
+
+\subsection{MAML for Reinforcement learning}
+Reinforcement learning(RL), especially Deep reinforcement learning(Deep-RL) methods have driven impressive advances in artificial intelligence in recent years, surpassing human's ability in domains ranging from Go to no-limit poker. But to attain expert human-level performance on tasks such as video games or chess playing, deep RL systems need many orders of magnitude more training data and experience than a ordinary human experts. Thus, making RL faster is of vital importance to RL research.
+
+
+In reinforcement learning, the goal of few-shot meta-learning is enabling fast reinforcement learning  on a new task using only a small amount of experience in the test setting. One reason for the slow training of reinforcement learning is weak inductive bias, which leads to its inefficient data efficiency. This approach of MAML can also be applied to RL with little adaptation. For example, an agent may learn how to quickly figure out the method of navigating throughout mazes, so that it can use its prior knowledge to reliably determine how to reach the exit with only a limited number of samples. In the following section, we will discuss how MAML can be applied meta reinforcement learning.
+
+The return function of reinforcement learning $G_t^{(n)}$ or $G_t^{\lambda}$ contains some hyperparameters, such as discount factor $\gamma$ and bootstrapping parameter $\lambda$. Meta-RL regards these parameters as meta-parameters, namely $\eta = \{\gamma, \lambda\}$, which are adjusted and learned online during the interaction between the agent and the environment. Therefore, the return function becomes a function with parameters $\eta$, dynamically adjusted to suit different tasks.
+Every RL task $\mathcal{T}_i$ contains an initial state distribution $q_i(x_1))$ and a transition distribution  $q_i(x_{t+1} \mid x_t, a_t)$, and the loss $\mathcal{L}_{\mathcal{T}_i}$ links to the negative reward function R. The entire task of RL is a Markov decision process(MDP) with horizon set to H. While sampling for K-shot learning, we use a number of random K trajectories as training set and testing set. The model being learned is a policy that map current states $x_t$ to a distribution over actions $a_t$ at each timestep. We can get a loss function for task $\mathcal{T}_i$ and model $f_\phi$ as equation 4. 
+$ \mathcal{L}_{\mathcal{T}_i} (f_\phi) = - \mathbb{E}_{x_t, a_t \sim f_\phi,q_{\mathcal{T}_i}}\left [ \sum_{t=1}^{H} R_i(x_t,a_t)  \right ] $
+
+We will get K rollouts from $f_\theta$ and task $\mathcal{T}_i, (x_1,a_1,...x_H)$, and the corresponding rewards function $R(x_t,a_t)$, may be used for adaptation on the upcoming new task $\mathcal{T}_i$. We detailed the algorithm in \ref{MAML-reinforcement}
+
+
+\begin{algorithm}
+    \caption{MAML for Few-Shot Reinforcement Learning}
+    \label{MAML-reinforcement}
+    \begin{algorithmic}[1]
+      \REQUIRE $p(\mathcal{T})$: distribution over tasks
+      \REQUIRE $\alpha, \beta$: step size hyperparameters
+      \STATE randomly initialize $\theta$
+      \WHILE {not done}
+      \STATE Sample batch of tasks $\mathcal{T}_i \sim p(\mathcal{T})$
+      \FORALL {$\mathcal{T}_i$}
+      \STATE Sample $K$ trajectories $\mathcal{D}=\{(x_1,a_1,...x_H)\}$ using $f_\theta$ in $\mathcal{T}_i$
+      \STATE Evaluate $\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$ using $\mathcal{D}$ and $\mathcal{L}_{\mathcal{T}_i}$ in Equation (4)
+      \STATE Compute adapted parameters with gradient descent: $\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)$
+      \STATE Sample datapoints $D'_i=\{(x_1,a_1,...x_H)\}$ using $f_{\theta'_i}$ in $\mathcal{T}_i$
+      \ENDFOR
+      \STATE Update $\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$  using each $D'_i$ and $\mathcal{L}_{\mathcal{T}_i} $ in Equation 4
+      \ENDWHILE
+    \end{algorithmic}
+  \end{algorithm}
+
 
 
 %# need more subsections ? 
