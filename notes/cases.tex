@@ -1,6 +1,28 @@
 \section{Case Study}
-\subsection{Meta learning for Recommendation}
 
-describe MELU\cite{lee2019melu}
+In this section, we will discuss how MAML algorithm will be applied to different domains. We use supervised learning and reinforcement learning as examples. These two domains differs in the form of how loss is computed and data generation methods, but basic adaptation mechanism is the same. As a model-agnostic algorithm for meta-learning, MAML offers a general approach that can also be applied to other machine learning scenarios that use gradient descent.
+
+\subsection{MAML for Supervised Learning}
+
+In supervised learning regime, few-shot learning is a well-studied topic,where the goal is to learn from a limited number of cases.Few-shot learning is particularly suitable for meta-learning, in that learning speed is an important meta metric of meta-learning. More specifically, cases like function regression, whose goal is to predict the outputs of a continuous-valued function with only a few points from that function, is a typical few-shot learning problem. Similarly, the cold start of user  recommendation systems is also a few-shot learning scenario, due to the limited data from specific users. Other cases including few-shot image classification also exists in practical use.
+
+To apply MAML to supervised learning, we need to first determine the corresponding loss functions, and then replace line-5 of Algorithm-1 with case-specific model evaluation process. For the training-set and testing-set, we can just randomly sample input/output data-points for each supervised case. 
+
+\textbf{Loss Function for Supervised Classification}
+The common loss functions used for supervised classification are mean-squared error(MSE) and cross-entropy, other loss functions might also be used while they are not necessarily relevant with MAML.We use entropy loss for example below:
+\begin{equation}
+    \ell_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} y^{(j)}log{f_\phi}(x^{(j)}) + (1-y^{(j)})log(1-f_\phi(x^{(j)}))
+    \tag{3}
+\end{equation}
+
+\textbf{Loss Function for Supervised Regression}
+Likewise, for few-shot regression problems, we use mean-squared error, the loss takes the form as below:
+\begin{equation}
+    \ell_{\tau_i}(f_\phi) = \sum_{x^{(j)},y^{(j)}\sim\tau_i} \parallel f_\phi(x^{(j)} - y^{j} \parallel_2^2 
+    \tag{4}
+\end{equation}
+
+\subsection{MAML for }
+
 
 %# need more subsections ? 
