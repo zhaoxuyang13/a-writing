@@ -4,7 +4,7 @@ categorizations of meta-learning methods tend to produce a three-way taxonomy ac
 Today we mainly introduce the most famous example of optimization-based methods, MAML, which is to learn a good initialization for the parameters, and then use a small amount of updates to train new tasks on the basis of this initialization.
 
 \subsection{MAML}
-According to the above introduction, we can realize that: From a macro perspective, meta learning uses tasks as ``samples" for learning! So in general, we will divide the data into $Meta\_train$ and $Meta\_test$, where $Meta\_train$ contains data from multiple tasks, and can be divided into $D\_train$ and $D\_test$, which are used for training and testing respectively.
+According to the above introduction, we can realize that: From a macro perspective, meta learning uses tasks as ``samples" for learning. So in general, we will divide the data into $Meta\_train$ and $Meta\_test$, where $Meta\_train$ contains data from multiple tasks, and can be divided into $D\_train$ and $D\_test$, which are used for training and testing respectively.
 
 Since current machine learning methods all perform gradient updates, and the focus of MAML is on gradient updates, it can also be regarded as a gradient-based meta learning method.
 
@@ -40,7 +40,20 @@ The gradient-based solution is adaptive to different kinds of learning tasks. Al
   \end{algorithmic}
 \end{algorithm}
 
-At first, we sample several tasks randomly into a batch.Using each task in the batch, we update the parameters of the model separately, that is, calculate the gradient of each parameter for the support set in a certain task in the batch. Under the setting of N-way K-shot, there should be NK in the support set. The author writes with respect to K examples in the algorithm, and calculates K samples under each class by default. In fact, there are a total of NK samples involved in the calculation. The loss calculation method here is MSE in regression problems and cross-entropy in classification problems. Step 6, the first update of the gradient. After step 4 to step 7, MAML completes the first gradient update. The next thing we need to do is to calculate the second gradient update through gradient by gradient based on the parameters obtained from the first gradient update. The gradient calculated in the second gradient update is directly applied to the original model through SGD, which is the gradient that our model is really used to update its parameters. In other words, the first gradient update is for the second gradient update, and the second gradient update is for updating the model parameters. Regarding the above process, here is an explanation: assuming the original model is, we copied it and got it. In the above, we did backpropagation and update parameters to get the result of the first gradient update. Then, on, we will calculate the second gradient update. At this time, you need to calculate the gradient on (the calculation method is as described in the next step 8), but the gradient update is not the original model. This is how the double gradient is implemented in the code. Step 8 corresponds to the process of the second gradient update. The loss calculation method here is roughly the same as step 5, but there are two differences. One is that we no longer use the loss of each task to update the gradient, but like the common model training process, calculate the total loss of a batch, and perform random gradient descent SGD on the gradient. The other is the sample involved in the calculation here, which is the query set in the task. In our example, 5-way*15=75 samples. The purpose is to enhance the generalization ability of the model on the task and avoid over-fitting. support set. After step 8 is over, the model ends the training in the batch, starts to return to step 3, and continues to sample the next batch.
+At first, we sample several tasks randomly into a batch. From step 4 to step 7, we update the parameter vector $\theta'_i$ of the model separately on support set($D\_train$) of each task in the batch using one or more gradient descent updates on task $\mathcal{T}_i$.
+While using multiple gradient updates is a straightforward extension, for simplicity of notation, we use one gradient update,
+$$\theta'_i = \theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta).$$
+The step size $\alpha$ there can be a fixed hyperparameter or a meta-learned paramter. Loss function may be MSE in regression model or cross-entropy in classification.
+
+After that, we need to compute the second gradient update, known as meta update, on the model parameters $\theta$ using the updated parameter vector $\theta'$. We no longer use the loss of each task to update the gradient, but like common model training process, optimizing for the performance of $f_{\theta'_i}$ with respect to $\theta$ across tasks sampled from
+$p(\mathcal{T})$. More concretely, the meta-objective is as follows:
+$$\min_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i}) = \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta - \alpha\nabla_\theta \mathcal{L}_{\mathcal{T}_i} (f_\theta)})$$
+The meta-optimization across tasks is performed via
+stochastic gradient descent (SGD), such that the model parameters $\theta$ are updated as follows:
+$$\theta \leftarrow \theta - \beta\nabla_\theta \Sigma_{\mathcal{T}_i \sim p(\mathcal{T})}\mathcal{L}_{\mathcal{T}_i} (f_{\theta'_i})$$
+
+The second gradient update is performed on the query set($D\_test$) in the task, which enhances the generalization of this model and avoids overfitting the support set($D\_train$).
+
 % \begin{algorithm}
 %   \caption{MAML for Few-Shot Supervised Learning}
 %   \label{MAML}
