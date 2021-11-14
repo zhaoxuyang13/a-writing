@@ -94,7 +94,7 @@
 
 	\textbf{Find the best function F* according to L(F)}
 
-	\centerline{\includegraphics[width=1.0\textwidth]{figs/equation1.png}}
+	$ F^* = argmin_F L(F) $
 
 }
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%3
@@ -391,7 +391,7 @@ $$
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%37
 
 \frame{
-	\frametitle{MAML for cold-start recommendation}
+	\frametitle{MAML for cold-start recommendation.}
 
 	\ccr{User Preference Estimator.} the model that estimate users' preference for certain item.
 	\centerline{\includegraphics[width=1\textwidth]{figs/melu-pref.png}}
@@ -421,7 +421,7 @@ $$
 \frame{
 	\frametitle{Meta-learned User Preference Estimator}
 
-	\textbf{How to improve estimator's performance when \ccr{training set is small ?}}
+	\textbf{How to improve estimator's performance when training set is small ?}
 
 	Apply MAML's approach to UPE ! %\pause
 
@@ -444,7 +444,7 @@ $$
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
 
 \frame{
-	\frametitle{Evidence Candidate Selection}
+	\frametitle{Evidence Candidate Selection.}
 
 	\begin{block}{Evidence Candidates}
 		\ccr{Evidence candidate} is a set of items that are presented to a new user, so that the model can get a quick understand of user's general preference for products.
@@ -462,7 +462,7 @@ $$
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
 
 \frame{
-	\frametitle{Evaluations}
+	\frametitle{Evaluations.}
 
 	MeLU is able to predict well with only a few input.
 
@@ -553,4 +553,5 @@ $$
 }
 
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%58
+
 \end{document}
