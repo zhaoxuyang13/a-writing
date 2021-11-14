@@ -77,14 +77,16 @@
 		\frametitle{Introduction: Meta-Learning Background}
 		\textbf{A meta-learning model}
 		\begin{itemize}
-			\item  learns from \ccb{past learning experience}				
-			\item  can learn \ccb{future tasks} \ccr{better} based on prior knowledge
+			\item learns from \ccb{past learning experience}				
+			\item can learn \ccb{future tasks} \ccr{better} based on prior knowledge
+			\item learns the learning function during the learning process
 		\end{itemize}
 
 		\textbf{Metrics for meta-learning}
 		\begin{itemize}
 			\item size of training-set for model convergence		
 			\item robustness of model
+			\item accuracy of the prediction
 			\item etc...
 		\end{itemize}
 		
@@ -487,224 +489,9 @@ $$}
     \end{lemma}
 	
 	\bigskip
-   \centerline{\includegraphics[width=0.8\textwidth]{figures/p25}}
+   	\centerline{\includegraphics[width=0.8\textwidth]{figures/p25}}
 	}
-	%
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%26
-	\frame{
-	\frametitle{Relationship between flows and cuts}
-		\begin{lemma}
-		Let \ccb{$f$} be any flow and let \ccb{$(A,B)$} be any cut. Then, the value of the flow
-     \ccb{$f$} equals the net flow across the cut \ccb{$(A,B)$}.	
-		\ccb{\begin{equation*}
-	v a l(f)=\sum\limits_{\text { out of } A} f(e)-\sum\limits_{e \text { in to } A} f(e)
-		\end{equation*}}
-    \end{lemma}
-	
-	\bigskip
-\centerline{\includegraphics[width=0.8\textwidth]{figures/p26}}
-}
-	%
-	%%%//////////////////////////////////////////////////////////////////////////////////////////////%%27
-	
-			\frame{
-		\frametitle{Relationship between flows and cuts}
-	\begin{lemma}
-		Let \ccb{$f$} be any flow and let \ccb{$(A,B)$} be any cut. Then, the value of the flow
-     \ccb{$f$} equals the net flow across the cut \ccb{$(A,B)$}.	
-		\ccb{\begin{equation*}
-	v a l(f)=\sum\limits_{\text { out of } A} f(e)-\sum\limits_{e \text { in to } A} f(e)
-		\end{equation*}}
-    \end{lemma}
-	
-	\bigskip
-    \centerline{\includegraphics[width=0.8\textwidth]{figures/p27}}
-	}
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%28
-	\frame{
-	\frametitle{Network flow: quiz 3}	
-	Which is the net flow across the given cut?
-	\begin{enumerate}\color{blue}
-		\item 11 $ (20+25- 8- 11- 9- 6) $
-		\item 26 $ (20+22- 8- 4- 4) $
-		\item  42 $ (20+22) $
-		\item 45 $ (20+25) $
-	\end{enumerate}
-	\bigskip
- \centerline{\includegraphics[width=0.8\textwidth]{figures/p28}}
-}
 
-
-
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%29
-		\frame{
-		\frametitle{Relationship between flows and cuts}
-	\begin{lemma}
-		Let \ccb{$f$} be any flow and let \ccb{$(A,B)$} be any cut. Then, the value of the flow
-     \ccb{$f$} equals the net flow across the cut \ccb{$(A,B)$}.	
-		\ccb{\begin{equation*}
-	v a l(f)=\sum\limits_{\text { out of } A} f(e)-\sum\limits_{e \text { in to } A} f(e)
-		\end{equation*}}
-    \end{lemma}\pause
-
-\ccm{\em Proof.}
-
-\ccb{$$\begin{array}{ll}
-val(f)&=\sum\limits_{e \text { out of } s} f(e)-\sum\limits_{\text { e in to } s} f(e) \\
-&=\sum\limits_{v \in A}\left(\sum\limits_{e \text { out of } v} f(e)-\sum\limits_{\text { e in to } v} f(e)\right)\\
-&=\sum\limits_{e \text { out of } A} f(e)-\sum\limits_{e \text { in to } A} f(e).
-\end{array}
-$$}
-
-
-}
-
-	%%//////////////////////////////////////////////////////////////////////////////////////////////%%30
-	\frame{
-		\frametitle{Relationship between flows and cuts}
-		\begin{theorem}{Weak Duality}
-         Let \ccb{$f$} be any flow and \ccb{$(A, B)$} be any cut. Then, \ccb{$val(f) \leq \operatorname{cap}(A, B)$}.
-         \end{theorem}\pause
-	
-\ccm{\em Proof.}
-\ccb{	
-$$
-\begin{aligned}
-\operatorname{val}(f) &=\sum_{e \text { out of } A} f(e)-\sum_{\text {e  in to } A} f(e) \\
-& \leq \sum_{\text { e out of } A} f(e) \\
-& \leq \sum_{e \text { out of } A} c(e) \\
-&=\operatorname{cap}(A, B)
- \end{aligned}
-$$}
-		\vspace{3mm}\centerline{\includegraphics[width=0.8\textwidth]{figures/p30}}
-	}
-	%%
-	%%
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%31
-	%
-	\frame{
-		\frametitle{Certificate of optimality}
-	\begin{corollary}
-		Let \ccb{$f$} be a flow and let \ccb{$(A,B)$} be any cut.
-		If \ccb{$val(f)=\operatorname{cap}(A, B)$}, then \ccb{$f$} is a max flow and \ccb{$(A,B)$} is a min cut.
-	\end{corollary}\pause
-	
-	\ccm{\em Proof.}\vspace{-2mm}
-%\hspace{3.5cm}	$ \color{red}\begin{array}{l}	
-%		\text{\tiny weak duality}\\[-1mm]
-%			\swarrow
-%	\end{array} $
-	\begin{itemize}
-		\vspace{-3mm}
-		\item For any flow \ccb{$f^{\prime} : \quad {val}\left(f^{\prime}\right) \leq 	\operatorname{cap}(A, B)=val(f)$}.
-		\item For any cut \ccb{$\left(A^{\prime}, B^{\prime}\right) : \operatorname{cap}\left(A^{\prime}, B^{\prime}\right) \geq {val}(f)=\operatorname{cap}(A, B)$}
-	\end{itemize}	
-%\vspace{-3mm}
-%\hspace{5.5cm}	$ \color{red}\begin{array}{l}	
-%\nwarrow\\[-2mm]
-%	\text{\tiny weak duality}
-%	\end{array} $
-	
-		\vspace{3mm}\centerline{\includegraphics[width=0.8\textwidth]{figures/p31}}
-	
-	}
-	%
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%32
-	%
-	\frame{
-		\frametitle{Max-flow min-cut theorem}
-
-	\begin{block}{Max-Flow Min-Cut Theorem}	Value of a max flow = capacity of a min cut.
-     \end{block}
-		
-	\vspace{6mm}\centerline{\includegraphics[width=\textwidth]{figures/p32}}
-	}
-	%%
-	%
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%33
-		\frame{
-		\frametitle{Max-flow min-cut theorem}
-		\begin{block}{Max-Flow Min-Cut Theorem}	Value of a max flow = capacity of a min cut.
-     \end{block}\pause
-
-		\begin{block}{Augmenting path theorem} A flow \ccb{$f$} is a max flow iff no augmenting paths.
-        \end{block}\pause
-        	
-		\ccm{\em Proof.}  The following three conditions are equivalent for any flow \ccb{$f$}:\vspace{-3mm}\pause
-		\begin{enumerate}[i.]
-			\item There exists a cut \ccb{$(A, B)$} such that \ccb{$\operatorname{cap}(A, B)=val(f)$}.
-			\item  \ccb{$f$} is a max flow.
-			\item  There is no augmenting path with respect to \ccb{$f$}.
-%$	 \color{red}\leftarrow\begin{array}{l}
-%			\text{\tiny if Ford–Fulkerson terminates,}\\[-2mm]
-%			\quad\text{\tiny (then $f$ is max flow)}
-%			\end{array} $
-		\end{enumerate}\pause
-
-		\ccc{[i$\Rightarrow$ ii]}\pause \hspace{2em}	This is the weak duality corollary.
-			
-	}
-	
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%34
-	\frame{
-	\frametitle{Max-flow min-cut theorem}
-		\begin{block}{Max-Flow Min-Cut Theorem}	Value of a max flow = capacity of a min cut.
-     \end{block}
-		\begin{block}{Augmenting path theorem} A flow \ccb{$f$} is a max flow iff no augmenting paths.
-        \end{block}
-        	
-		\ccm{\em Proof.}  The following three conditions are equivalent for any flow \ccb{$f$}:\vspace{-3mm}
-		\begin{enumerate}[i.]
-			\item There exists a cut \ccb{$(A, B)$} such that \ccb{$\operatorname{cap}(A, B)=val(f)$}.
-			\item  \ccb{$f$} is a max flow.
-			\item  There is no augmenting path with respect to \ccb{$f$}.
-%$	 \color{red}\leftarrow\begin{array}{l}
-%			\text{\tiny if Ford–Fulkerson terminates,}\\[-2mm]
-%			\quad\text{\tiny (then $f$ is max flow)}
-%			\end{array} $
-		\end{enumerate}
-
-	\ccc{[ii$\Rightarrow$ iii]}	 \pause\hspace{2em} We prove contrapositive: \ccov{$\lnot$ iii $\Rightarrow \lnot $ii}.\\ \pause
-	\begin{itemize}
-		\item  Suppose that there is an augmenting path with respect to \ccb{$f$}.
-		\item Can improve flow \ccb{$f$} by sending flow along this path.
-		\item Thus, \ccb{$f$} is not a max flow.
-	\end{itemize}
-	
-	
-}
-	%
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%35
-	\frame{
-		\frametitle{Max-flow min-cut theorem}
-		\ccc{[ iii $\Rightarrow$ i ]}\vspace{-1em}
-		\begin{itemize}
-			\item Let \ccb{$f$} be a flow with no augmenting paths.
-			\item Let \ccb{$A$} be set of nodes reachable from \ccb{$s$} in residual network \ccb{$G_f$}.
-			\item By definition of \ccb{$A: s \in A$}.
-			\item By definition of flow \ccb{$f: t \notin A$}.
-		\end{itemize}
-		
-		\begin{columns}
-			\begin{column}{6cm}
-			\ccb{$$
-			\begin{aligned}
-			{val}(f) &=\sum_{e \text { out of } A} f(e)-\sum_{\text {e  in to } A} f(e) \\
-			%\color{red}\begin{array}{l}
-%			\hspace{5mm}\nearrow\\
-%			\text{\tiny flow value}\\[-2mm]
-%			\hspace{2mm}\text{\tiny lemma}
-%			\end{array}
-          & = \sum_{\text { e out of } A} c(e)  -  0 \\
-			&=\operatorname{cap}(A, B)
-			\end{aligned}
-			$$}
-			\end{column}
-		\begin{column}{6cm}
-				\vspace{3mm}\centerline{\includegraphics[width=0.8\textwidth]{figures/p35}}     			
-		\end{column}
-		\end{columns}
-	}
 
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%36
 	
@@ -714,39 +501,43 @@ $$}
 	%%
 	%%
 	\frame{
-		\frametitle{Analysis of Ford–Fulkerson algorithm (when capacities are integral)}
+		\frametitle{Cold-Start Recommendation problem}
 
-		\ccp{Assumption.} Every edge capacity \ccb{$c(e)$} is an integer between \ccb{$1$} and \ccb{$C$}.\pause
+		\ccp{Recommendation.} \\
+		Companies use recommendation systems to deliver personalized contents and sell products. 
 		
-		\ccp{Integrality invariant.} Throughout Ford-Fulkerson, every edge flow \ccb{$f(e)$} and residual capacity \ccb{$c_f (e)$} is an integer.\pause
+		\begin{columns}
+			\begin{column}{8cm}
+				\centerline{\includegraphics[width=0.3\textwidth]{figs/tiktok.png}}		
+			\end{column}
+			\begin{column}{4cm}
+				\centerline{\includegraphics[width=0.3\textwidth]{figs/taobao.jpeg}}	
+			\end{column}
+		\end{columns} 
+		\pause
+		
+		\ccp{Cold-Start problem.} \\
+		Modern recommendation systems use \ccp{Machine Learning} approach to provide \ccp{customized} user-experience.
+		Recommendation using ML is hard when \#users and \#items are still small. (\ccr{A Cold-Start}).
 
-		\ccm{\em Proof.}  By induction on the number of augmenting paths.\pause
-
-%%	\vspace{-2mm}	
-%			
-%	\hspace{6cm}	$ \color{red}\begin{array}{l}	
-%		\quad\text{\tiny  consider cut A =\{ s \}}\\[-2mm]
-%		\text{\tiny (assumes no parallel edges)
-%			}\\[-2mm]
-%	\hspace{1cm} \swarrow
-%		\end{array} $\vspace{-7mm}
-
-		\begin{theorem}
-		Ford–Fulkerson terminates after at most \ccb{$val\left(f^{*}\right) \leq n C$}\\
-		augmenting paths, where \ccb{$f^*$} is a max flow.
-		\end{theorem}\pause
-
-	\ccm{\em Proof.} Each augmentation increases the value of the flow by at least 1.
-	
+		\pause
+		
+		\begin{definition}
+			\ccm{Few-Shot Learning} 
+			\begin{itemize}
+				\item Few-shot learning is the problem of making predictions based on a limited number of samples.
+			\end{itemize}
+		\end{definition}	
 	}
 
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%37
 
 	\frame{
-		\frametitle{Analysis of Ford–Fulkerson algorithm (when capacities are integral)}
-    \begin{corollary}
-	The running time of Ford–Fulkerson is \ccb{$O(m n C)$}.
-		\end{corollary}	\pause
+		\frametitle{MAML for cold-start recommendation}
+		
+		\ccr{User Preference Estimator.} the model that estimate users' preference for certain item.
+		\centerline{\includegraphics[width=0.6\textwidth]{figs/melu-pref.png}}
+
 
    \ccm{\em Proof.} Can use either BFS or DFS to find an augmenting path in \ccb{$O(m)$} time.\pause
 	
@@ -1054,177 +845,6 @@ There are \ccb{$\leq 2m$} augmentations per scaling phase.
 		\ccc{A.}  Pick one that uses the \ccp{fewest} edges.\pause
 
 
-\begin{exampleblock}{}
-    \begin{algorithm}[H]
-        \SetKwData{x}{x}\SetKwData{y}{y}\SetKwData{z}{z}
-        \SetKwFunction{CS}{\sc Shortest-Augmenting-Path}\SetKwFunction{Return}{\sc Return}\SetKwFunction{Init}{\sc Initialize}
-        \SetKwFunction{Up}{\sc Update}\SetKwFunction{Au}{\sc Augment}\SetKwFunction{BFS}{\sc BFS}
-        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
-     \CS{$G$}
-     \BlankLine
-     \For{each edge $e \in E$}{$f(e)\leftarrow 0$}
-     $G_f\leftarrow$ residual network of $G$ with respect to flow $f$\;
-	 \While{there exists an $s\rightsquigarrow t$ path in $G_f$}{
-      $P\leftarrow$ \BFS{$(G_f)$}\;
-      $f \leftarrow$ \Au{$f$, $c$, $P$}\;
-      \Up{$G_f$}\;
-       }
-      \Return $f$\;
-     \end{algorithm}
-     \end{exampleblock}
-
-
 	}
-	
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%49
-	\frame{
-		\frametitle{Shortest augmenting path: overview of analysis}
-	
-	\begin{block}{Lemma 1}
-		The length of a shortest augmenting path never decreases.
-	\end{block}\pause
-
-    \begin{block}{Lemma 2}
-    After at most \ccb{$m$} shortest-path augmentations, the length of a shortest augmenting path strictly increases.
-    \end{block}\pause
-
-    \begin{theorem}
-    The shortest-augmenting-path algorithm takes \ccb{$O(m^2 n)$} time.
-    \end{theorem}\pause
-
-    \ccm{\em Proof.}\pause
-\begin{itemize}
-	\item \ccb{$O(m)$} time to find a shortest augmenting path via BFS.\pause
-	\item There are \ccb{$\leq mn$} augmentations\pause
-	\begin{enumerate}[-]
-		\item at most \ccb{$m$} augmenting paths of length \ccb{$k$} \pause \ccpk{$\longleftarrow$ Lemma 1 + Lemma 2 }
-		\item at most \ccb{$n-1$} different lengths
-	\end{enumerate}
-\end{itemize}
-	}
-%%//////////////////////////////////////////////////////////////////////////////////////////////%%50
-%	
-	\frame{
-		\frametitle{Shortest augmenting path: analysis}
-    \begin{definition}
-        Given a \ccp{digraph} \ccb{$G = (V, E)$} with source \ccb{$s$}, its \ccp{level graph} is defined by:
-        \vspace{-4mm}
-\begin{itemize}
-	\item \ccb{$\ell(v)$ = number of edges in shortest $s\rightsquigarrow v$ path}.
-	\item \ccb{$L_G = (V,E_G)$} is the subgraph of \ccb{$G$} that contains only those edges \ccb{$(v, w) \in E$}
-	with  \ccb{$\ell(w) = \ell(v) + 1$}.
-\end{itemize}
-\end{definition}	
-\vspace{3mm}\centerline{\includegraphics[width=0.7\textwidth]{figures/p50}}
-	}
-%%//////////////////////////////////////////////////////////////////////////////////////////////%%51
-\frame{
-	\frametitle{Network flow: quiz 5}
-	Which edges are in the level graph of the following digraph?
-	\begin{enumerate}[A.]
-		\item \ccb{$D\rightarrow F$}
-		\item \ccb{$E\rightarrow F$}
-		\item  Both A and B.
-		\item Neither A nor B.
-	\end{enumerate}
-	
-	\vspace{1cm}\centerline{\includegraphics[width=\textwidth]{figures/p51}}
-	
-}
-
-
-%%//////////////////////////////////////////////////////////////////////////////////////////////%%52
-
-
-\frame{
-	\frametitle{Shortest augmenting path: analysis}
-	\begin{definition}
-        Given a \ccp{digraph} \ccb{$G = (V, E)$} with source \ccb{$s$}, its \ccp{level graph} is defined by:
-        \vspace{-4mm}
-\begin{itemize}
-	\item \ccb{$\ell(v)$ = number of edges in shortest $s\rightsquigarrow v$ path}.
-	\item \ccb{$L_G = (V,E_G)$} is the subgraph of \ccb{$G$} that contains only those edges \ccb{$(v, w) \in E$}
-	with  \ccb{$\ell(w) = \ell(v) + 1$}.
-\end{itemize}
-\end{definition}
-
-\cco{Key property.} \ccb{$P$} is a shortest \ccb{$s\rightsquigarrow v$} path in \ccb{$G$} iff \ccb{$P$}  is an \ccb{$s\rightsquigarrow v$}  path in \ccb{$L_G$}.
-	
-	\vspace{1cm}\centerline{\includegraphics[width=0.8\textwidth]{figures/p52}}
-}
-
-
-	
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%53
-	%%
-	\frame{
-		\frametitle{Shortest augmenting path: analysis}
-	\begin{block}{Lemma 1}
-		The length of a shortest augmenting path never decreases.
-	\end{block}\pause\vspace{-1em}
-
-     \ccm{\em Proof.}\pause\vspace{-1em}
-	\begin{itemize}
-		\item Let \ccb{$f$} and \ccb{$f'$}  be flow before and after a shortest-path augmentation.
-		\item  Let \ccb{$L_G$} and \ccb{$L_{G'}$} be level graphs of \ccb{$G_f$} and \ccb{$G_{f'}$}.
-		\item Only back edges added to \ccb{$G_{f'}$} \\
-		(any \ccb{$s\rightsquigarrow t$} path that uses a back edge is longer than previous length)
-	\end{itemize}
-
-    \centerline{\includegraphics[width=0.6\textwidth]{figures/p53}}     	
-	}
-	%%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%54
-	%%%
-	\frame{
-		\frametitle{Shortest augmenting path: analysis}
-	    \begin{block}{Lemma 2}
-    After at most \ccb{$m$} shortest-path augmentations, the length of a shortest augmenting path strictly increases.
-    \end{block}\pause\vspace{-1em}
-     \ccm{\em Proof.}\pause\vspace{-1em}
-	\begin{itemize}
-	\item  At least one (bottleneck) edge is deleted from \ccb{$L_G$} per augmentation.
-	\item No new edge added to \ccb{$L_G$} until shortest path length strictly increases.
-		\end{itemize}
-		
-		\vspace{3mm}\centerline{\includegraphics[width=.65\textwidth]{figures/p54}}
-		
-	}
-	
-
-	
-	
-	%%//////////////////////////////////////////////////////////////////////////////////////////////%%55
-	\frame{
-		\frametitle{Shortest augmenting path: review of analysis}
-	\begin{block}{Lemma 1}
-		The length of a shortest augmenting path never decreases.
-	\end{block}
-
-    \begin{block}{Lemma 2}
-    After at most \ccb{$m$} shortest-path augmentations, the length of a shortest augmenting path strictly increases.
-    \end{block}
-
-    \begin{theorem}
-    The shortest-augmenting-path algorithm takes \ccb{$O(m^2 n)$} time.
-    \end{theorem}
-   	
-	}
-	
-	%%//////////////////////////////////////////////////////////////////////////////////////////////%%56
-	
-	\frame{
-		\frametitle{Shortest augmenting path: improving the running time}
-		
-		
-		\cco{Note.}  \ccb{$\Theta(m n)$} augmentations necessary for some flow networks.
-		\pause\hspace{-2em}
-		\begin{itemize}
-			\item Try to decrease time per augmentation instead.
-			\item Simple idea \ccc{$\Rightarrow$} \ccb{$\ccb{O(mn^2)}$}   \hspace{2em }[\ccc{Dinitz 1970}]\pause
-			\item Dynamic trees \ccc{$\Rightarrow$} \ccb{$O(m n \log n)$}   \hspace{2em}  [\ccc{Sleator–Tarjan 1983}]
-		\end{itemize}
-	\vspace{3mm}\centerline{\includegraphics[width=0.8\textwidth,height=5cm]{figures/p56}}
-	}
-
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%58
 \end{document}
