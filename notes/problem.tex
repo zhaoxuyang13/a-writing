@@ -9,7 +9,7 @@ In conventional supervised machine learning, dataset $\mathcal{D} = {(x_1, y_1),
 where $\mathcal{L}$ is a loss function measuring the error between true labels and those predicted by $f_\theta(x)$. $\theta$ denotes the paramters which are initialized randomly and optimized by gradient descent. $\omega$ denotes the dependence of this function on assuptions of learning methods, such as the choice of optimizer for $\theta$ and the choice of activation function.
 
 \subsection{Few-shot learning}
-When there are enough samples for dataset $\mathcal{D}$, we can achieve ideal result of the model above. However, this may be difficult or even not possible. In order to learn from a limited number of examples with supervised information, a new machine learning paradigm called Few-Shot Learning (FSL) is proposed.
+When there are enough samples for dataset $\mathcal{D}$, we can achieve ideal result of the model above. However, this may be difficult or even not possible. In order to learn from a limited number of examples with supervised information, a new machine learning paradigm called Few-Shot Learning (FSL) is proposed\cite{Sung2018LearningTC,Vinyals2016MatchingNF,li2006oneshot,Fink2004ObjectCF,Satorras2018FewShotLW }.
 
 % 这里写的很乱，可以再梳理一下应用场景
 FSL is the problem of making predictions based on a limited number of samples. Specifically, few-shot classification only gives a few labeled examples of each class to learn the classifier. Example applications include image classification, short text sentiment classification, and object recognition.

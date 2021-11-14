@@ -11,5 +11,6 @@
 *.out
 *.snm
 *.toc 
+*.synctex*
 sample.bbl
 sample.blg

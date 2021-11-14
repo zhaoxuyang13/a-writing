@@ -200,24 +200,157 @@
 
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%24
 
-\section{MAML}
+\section{Algorithms}
 
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%25
 
 \frame{
-	\frametitle{Model Agnostic Meta-Learning (MAML)}
-	\begin{lemma}
-		Let \ccb{$f$} be any flow and let \ccb{$(A,B)$} be any cut. Then, the value of the flow \ccb{$f$} equals the net flow across the cut \ccb{$(A,B)$}.
-		\ccb{\begin{equation*}
-				v a l(f)=\sum\limits_{\text { out of } A} f(e)-\sum\limits_{e \text { in to } A} f(e)
-			\end{equation*}}
-	\end{lemma}
+	\frametitle{Algorithms: Techniques Today}
+	\vspace{5mm}
+	\begin{itemize}
+		\item \textbf{MAML}
+		      \begin{itemize}
+			      \item Chelsea Finn, Pieter Abbeel, and Sergey Levine, “Model Agnostic Meta-Learning for Fast Adaptation of Deep Networks”, ICML, 2017
+		      \end{itemize}
+		      \vspace{5mm}
+		\item \textbf{FOMAML}
+		      \begin{itemize}
+			      \item Nichol A, Achiam J, Schulman J. On first-order meta-learning algorithms[J]. arXiv preprint arXiv:1803.02999, 2018.
+		      \end{itemize}
+		      \vspace{5mm}
+		\item \textbf{Reptile}
+		      \begin{itemize}
+			      \item Alex Nichol, Joshua Achiam, John Schulman, On FirstOrder Meta-Learning Algorithms, arXiv, 2018
+		      \end{itemize}
+	\end{itemize}
 
-	\bigskip
-	\centerline{\includegraphics[width=0.8\textwidth]{figures/p25}}
 }
 
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%25
 
+\frame{
+	\frametitle{Algorithms: MAML}
+	\vspace{5mm}
+	\textbf{Loss Function:}
+	\vspace{-2mm}
+	$$L(\phi)=\sum_{n=1}^{N} l^{n}\left(\hat{\theta}^{n}\right)$$
+	\vspace{-2mm}
+	\begin{itemize}
+		\item $\hat{\theta}^{n}$: model learned from task $n$
+		\item $l^{n}\left(\hat{\theta}^{n}\right)$: loss of task $n$ on the
+		      testing set of task $n$
+	\end{itemize}
+	\centerline{\includegraphics[width=0.8\textwidth]{figs/MAML-fig.png}}
+}
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%26
+
+\frame{
+	\frametitle{Algorithms: MAML}
+	\vspace{5mm}
+	\begin{columns}
+		\begin{column}{6cm}
+			\textbf{Loss Function:}
+			\vspace{-2mm}
+			$$L(\phi)=\sum_{n=1}^{N} l^{n}\left(\hat{\theta}^{n}\right)$$
+			\vspace{-2mm}
+		\end{column}
+		\begin{column}{6cm}
+			\begin{itemize}
+				\item We don’t care how $\phi$ behaves on the training task.
+				\item We care how well the $\hat{\theta}^{n}$ trained with $\phi$ performs.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+	\textbf{How to minimize $L(\phi)$?}  \ccb{Gradient Descent}
+	$$\phi \leftarrow \phi-\eta \nabla_{\phi} L(\phi) $$
+	\centerline{\includegraphics[width=0.6\textwidth]{figs/MAML.png}}
+}
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%27
+
+\frame{
+	\frametitle{Algorithms: MAML-Real Implementation}
+	\vspace{5mm}
+	\centerline{\includegraphics[width=\textwidth]{figs/MAML-Pretrain.png}}
+	\ccp{Adapt to new task fast!}
+}
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%25
+\frame{
+	\frametitle{Algorithms: MAML-Toy Example}
+	\vspace{5mm}
+	\begin{columns}
+		\begin{column}{6cm}
+			\textbf{Each task:}
+			\begin{itemize}
+				\item Given a target sine function $y=a\sin{x+b}$
+				\item Sample K points from the target function
+				\item Use the samples to estimate the target function
+			\end{itemize}
+		\end{column}
+		\begin{column}{4cm}
+			\centerline{\includegraphics[width=0.8\textwidth]{figs/toy-input.png}}
+			\ccg{Sample a and b to form a task}
+		\end{column}
+	\end{columns}
+	\centerline{\includegraphics[width=0.5\textwidth]{figs/toy-pretrain.png}\includegraphics[width=0.5\textwidth]{figs/toy-MAML.png}}
+	\centerline{Model Pre-training(left) vs MAML(right)}
+}
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%25
+
+\frame{
+\frametitle{Algorithms: FOMAML}
+\vspace{5mm}
+\textbf{Gradient in MAML is:}
+$$g_{MAML}= \frac{\partial}{\partial \theta}\left[L_{\tau}\left(U_{\tau}^{1}(\theta)\right)\right] = U_{\tau}^{1^{\prime}}(\theta) L_{\tau}^{\prime}\left(\theta_{\mathrm{new}}\right)
+$$
+\begin{itemize}
+	\item Formula $U_{\tau}^{1^{\prime}}(\theta)=\frac{\partial}{\partial \theta}\left(\theta-\alpha \nabla_{\theta} L_{\tau_{i}}(\theta)\right)$ involves finding the second derivative.
+\end{itemize}
+\ccb{Gradient in MAML is changed to:}
+$$
+	g_{\mathrm{FOMAML}} =\frac{\partial}{\partial \theta_{i}}\left[L_{\tau}\left(U_{\tau}(\theta)\right)\right] =L_{\tau}^{\prime}\left(\theta_{i}\right).
+$$
+
+
+}
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%27
+
+\frame{
+	\frametitle{Algorithms: Reptile}
+	\vspace{5mm}
+	\textbf{Related to MAML, Reptile is different in: }
+	\vspace{-2mm}
+	\begin{itemize}
+		\item performs SGD on each task in a standard way.
+		\item In global update, Reptile  implements a soft way by using $\theta'_i$ to find $\theta$.
+		\item \ccb{Reptile take less computation and memory than MAML}
+	\end{itemize}
+	\centerline{\includegraphics[width=\textwidth]{figs/Reptile-algo.png}}
+	$$\phi \leftarrow \phi + \epsilon \frac{1}{n} \sum_{i=1}^{n}\left(\widetilde{\phi}_{i}-\phi\right)$$
+}
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%27
+
+\frame{
+	\frametitle{Algorithms: Reptile-Real Implementation}
+	\vspace{5mm}
+	\centerline{\includegraphics[width=\textwidth]{figs/Reptile.png}}
+
+}
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%27
+
+\frame{
+	\frametitle{Algorithms: Reptile Implementation}
+	\vspace{3mm}
+	\centerline{\includegraphics[width=0.6\textwidth]{figs/Reptile-res.png}}
+	\vspace{-2mm}
+	\ccp{Comparison between Reptile and MAML:}
+	\vspace{2mm}
+	\centerline{\includegraphics[width=0.4\textwidth]{figs/cmp.png}}
+}
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%36
 
 \section{MeLU: MAML for Cold-Start Recommendation}
