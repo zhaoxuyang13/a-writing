@@ -62,72 +62,76 @@
 
 \section{Introduction}
 
+%%//////////////////////////////////////////////////////////////////////////////////////////////%%3
+\frame{
+	\frametitle{What is Meta-Learning}
+	
+	\textbf{In traditional machine learning, we learn classifier f from input dataset.}
 
+	\centerline{\includegraphics[width=1.0\textwidth]{figs/intro.png}}
+	\pause
+	
+	\textbf{But, can we learn the function F ? Or aka. Meta learning }
+
+}
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%3
 	\frame{
 		\frametitle{Introduction: Meta-Learning}
 
-		Meta learning = Learning to learn 
+		\textbf{Meta learning = Learning to learn}
 
-		* \ccr{Meta} + X $\longrightarrow$ X about X
+		* \ccr{Meta} + X $\longrightarrow$ X about X\pause
 
 		\centerline{\includegraphics[width=1.0\textwidth]{figs/meta-ml.png}}
 	}
-	\frame{	
-		\frametitle{Introduction: Meta-Learning Background}
-		\textbf{A meta-learning model}
-		\begin{itemize}
-			\item learns from \ccb{past learning experience}				
-			\item can learn \ccb{future tasks} \ccr{better} based on prior knowledge
-			\item learns the learning function during the learning process
-		\end{itemize}
+%%//////////////////////////////////////////////////////////////////////////////////////////////%%3
+	\frame{
+		\frametitle{Introduction: Meta-Learning}
 
-		\textbf{Metrics for meta-learning}
+		\textbf{Define the goodness of function F}
+		
+		$ L(F) = sum_{n=1}^{N} l^n $
+
+		\textbf{Find the best function F* according to L(F)}
+		
+		\centerline{\includegraphics[width=1.0\textwidth]{figs/equation1.png.png}}
+		
+	}
+%%//////////////////////////////////////////////////////////////////////////////////////////////%%3
+	\frame{	
+		\frametitle{Introduction: Meta-Learning}
+		\textbf{A Meta-Learning Model}
 		\begin{itemize}
-			\item size of training-set for model convergence		
-			\item robustness of model
+			\item learns from \ccb{past learning experience}		\pause
+			\item can learn \ccb{future tasks} \ccr{better} based on prior knowledge\pause
+			\item learns the learning function during the learning process
+		\end{itemize}\pause
+
+		\textbf{Metrics for Meta-learning}
+		\begin{itemize}
+			\item size of training-set for model convergence	\pause	
+			\item robustness of model \pause
 			\item accuracy of the prediction
 			\item etc...
 		\end{itemize}
 		
 		}
-%//////////////////////////////////////////////////////////////////////////////////////////////%%4
-	\frame{
-		\frametitle{Introduction: Few-shot Learning problem}
-	
-	\begin{definition}
-		An \ccp{$st$-cut (cut)} is a partition \ccb{$(A, B)$} of the nodes with \ccb{$s\in A$} and \ccb{$t \in B$}.
-	\end{definition}\pause
+%//////////////////////////////////////////////////////////////////////////////////////////////%% 3
+\frame{
+	\frametitle{Introduction: Few-shot Learning problem}
 
 	\begin{definition}
- Its \ccp{capacity} is the sum of the capacities of the edges from \ccb{$A$} to \ccb{$B$}.
-  \ccb{\[
-\operatorname{cap}(A, B)=\sum_{e \text { out of } A} c(e)
-\]}\vspace{-1em}
-    \end{definition}\pause\bigskip
+		In few-shot learning 
+	\end{definition}\pause
+
 
 
 \centerline{\includegraphics[width=0.65\textwidth]{figures/p4}}
 	}
-	%%%//////////////////////////////////////////////////////////////////////////////////////////////%%5
-	\frame{
-	\frametitle{Minimum-cut problem}
-	\begin{definition}
-		An \ccp{$st$-cut (cut)} is a partition \ccb{$(A, B)$} of the nodes with \ccb{$s\in A$} and \ccb{$t \in B$}.
-	\end{definition}
 
-	\begin{definition}
- Its \ccp{capacity} is the sum of the capacities of the edges from \ccb{$A$} to \ccb{$B$}.
-  \ccb{\[
-\operatorname{cap}(A, B)=\sum_{e \text { out of } A} c(e)
-\]}\vspace{-1em}
-    \end{definition}\bigskip	
-	
-	\centerline{\includegraphics[width=0.7\textwidth]{figures/p5}}
-}
-	%%//////////////////////////////////////////////////////////////////////////////////////////////%%6
+%%//////////////////////////////////////////////////////////////////////////////////////////////%%6
 
-	\frame{
+\frame{
 	\frametitle{Few-shot Learning problem}
 	
     \cco{Min-cut problem.} Find a cut of minimum capacity.\bigskip\bigskip
@@ -137,67 +141,22 @@
 
 	
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%7
-		\frame{
+	\frame{
 		\frametitle{Few shot learning cases: Omniglot}
 	Omniglot : Few-shot Classification
-\begin{enumerate}[\color{blue} A.]
-	\item $11~ (20+25 - 8 - 11 - 9 - 6)$
-	\item $34 ~(8+11+9+6)$
-	\item $45~ (20+ 25)$
-	\item $79~	(20+ 25+ 8+ 11+ 9+ 6)$
-\end{enumerate}	
-\vspace{5mm}
-	
+		\begin{enumerate}[\color{blue} A.]
+			\item $11~ (20+25 - 8 - 11 - 9 - 6)$
+			\item $34 ~(8+11+9+6)$
+			\item $45~ (20+ 25)$
+			\item $79~	(20+ 25+ 8+ 11+ 9+ 6)$
+		\end{enumerate}	
+		\vspace{5mm}
+			
 	\centerline{\includegraphics[width=0.8\textwidth]{figures/p7}}
 	
 }
 	
-	
-	
-	%%//////////////////////////////////////////////////////////////////////////////////////////////%%8
-	\frame{
-		\frametitle{Maximum-flow problem}
-	\begin{definition}
-		An \ccp{$st$-flow(flow)} \ccb{$f$} is a function that satisfies:
-		\begin{itemize}
-			\item For each \ccb{$e\in E$}: \hspace{2mm}  \ccb{$0 \leq f(e) \leq c(e)$}
-			\item For each \ccb{$v\in V-\{s,t\}$}:  \ccb{$\sum\limits_{e \text { in to } v} f(e) \  =\sum\limits_{e \text { out of } v} f(e)$}
-		\end{itemize}
-	\end{definition}
-	\bigskip
-
-	\centerline{\includegraphics[width=0.8\textwidth]{figures/p8}}
-	}
-	
-	%%//////////////////////////////////////////////////////////////////////////////////////////////%%9
-	\frame{
-		\frametitle{Maximum-flow problem}
-		\begin{definition}
-		An \ccp{$st$-flow(flow)} \ccb{$f$} is a function that satisfies:
-		\begin{itemize}
-			\item For each \ccb{$e\in E$}: \hspace{2mm}  \ccb{$0 \leq f(e) \leq c(e)$}
-			\item For each \ccb{$v\in V-\{s,t\}$}:  \ccb{$\sum\limits_{e \text { in to } v} f(e) \  =\sum\limits_{e \text { out of } v} f(e)$}
-		\end{itemize}
-	\end{definition}
-		\begin{definition}
-		The \ccp{value}	of a flow \ccb{$f$} is: \ccb{$val(f)=\sum\limits_{e \text { out of } s} f(e)-\sum\limits_{e \text { in to } s} f(e)$}
-		\end{definition}\smallskip
-	
-	\centerline{\includegraphics[width=0.7\textwidth]{figures/p9}}
-	}
-	
-	
-%%////////////////////////////////////////////////////////////////////////////////////////////%%10
-	\frame{
-	\frametitle{Maximum-flow problem}
-	
-    \cco{Max-flow problem.} Find a flow of maximum value.\bigskip\bigskip
-
-
-	\centerline{\includegraphics[width=0.7\textwidth]{figures/p10}}
-}
-
-
+%%////////////////////////////////////////////////////////////////////////////////////////////%%
 \section{Model Agnostic Meta-Learning (MAML)}
 	%
 	%%//////////////////////////////////////////////////////////////////////////////////////////////%%12
@@ -633,9 +592,9 @@ $$}
 }
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 7 pages
 
-	\section{More on meta-learning }
+	\section{More on meta-learning}
 
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%48
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%5 pages
 	%%
 	\frame{
 		\frametitle{Meta-learning is not only MAML}
