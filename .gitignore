@@ -10,5 +10,6 @@
 *.nav
 *.out
 *.snm
+*.toc 
 sample.bbl
 sample.blg
