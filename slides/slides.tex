@@ -633,7 +633,7 @@ $$}
 }
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 7 pages
 
-	\section{More about meta-learning and MAML}
+	\section{More on meta-learning }
 
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%48
 	%%
@@ -653,24 +653,24 @@ $$}
 		\end{itemize} 
 		
 	}
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%48
+	
+	
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 3
 %%
-	\frame{
-		\frametitle{Meta-learning is a huge field}
-		\textbf{Meta-learning Landscape}
-		Overview of the meta-learning landscape including algorithm design (meta-optimizer, meta-representation, meta-objective), and applications.\\
-		\ccg{from Hospedales. et al. "Meta-Learning in Neural Networks: A Survey." }
+\frame{
+	\frametitle{Beyond Gradient Descent}
+	\textbf{How to meta-learn other metrics on models other than gradient-based.}
 
-		\centerline{\includegraphics[width=1.2\textwidth]{figs/ml-landscape.png}}
-	}
+	\centerline{\includegraphics[width=1\textwidth]{figs/beyond-gd.png}}
+}
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 3
 %%
 	\frame{
 		\frametitle{Meta-learning is a huge field}
 		\textbf{Matching network}
-		Matching network is one of the metric-based meta-learning works that targeting k-shot classification problems.
+		Matching network is one of the \ccr{metric-based} meta-learning works that targeting k-shot classification problems.
 
-		\centerline{\includegraphics[width=1.2\textwidth]{figs/matching-networks.png}}
+		\centerline{\includegraphics[width=1\textwidth]{figs/matching-networks.png}}
 	}
 	
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 3
@@ -678,11 +678,21 @@ $$}
 	\frame{
 		\frametitle{Meta-learning is a huge field}
 		\textbf{Meta network}
-		Meta Networks , short for MetaNet, is a meta-learning model with architecture and training process designed for \ccy{rapid generalization across tasks}.
+		Meta Networks , short for MetaNet, is a \ccr{model-based} meta-learning model with architecture and training process designed for \ccpk{rapid generalization across tasks}.
 		me
-		\centerline{\includegraphics[width=1.2\textwidth]{figs/meta-network.png}}
+		\centerline{\includegraphics[width=1\textwidth]{figs/meta-network.png}}
 	}
-	
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%48
+%%
+\frame{
+	\frametitle{Meta-learning is a huge field}
+	\textbf{Meta-learning Landscape}
+	Overview of the meta-learning landscape including algorithm design (meta-optimizer, meta-representation, meta-objective), and applications.\\
+	\ccg{from Hospedales. et al. "Meta-Learning in Neural Networks: A Survey." }
+
+	\centerline{\includegraphics[width=1.1\textwidth]{figs/ml-landscape.png}}
+}
 
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%58
 \end{document}
