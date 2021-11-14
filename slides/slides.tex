@@ -50,7 +50,7 @@
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%1
 	
     \title{Model-Agnostic Meta-Learning (MAML) }
-    \subtitle{A meta-learning approach for Fast Adaptation of Deep Networks}
+    \subtitle{A Meta-Learning approach for Fast Adaptation of Deep Networks}
     \author{Yuyang Huang, Xuyang Zhao}
     \institute{School of Software, Shanghai Jiao Tong University}
     \date{\hspace{2em}}
@@ -62,26 +62,37 @@
 
 \section{Introduction}
 
+
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%3
 	\frame{
-		\frametitle{Meta-Learning}
-		A \ccp{flow network} is a tuple \ccb{$G = (V, E, s, t, c)$}.	 \vspace{-3.5mm}
-		\begin{itemize}
-			\item  Diagraph \ccb{$(V,E)$} with \ccp{source} \ccb{$s\in V$} and \ccp{sink} \ccb{$t\in V$}.				
-			\item  Capacity \ccb{$c(e)>0$} for each \ccb{$e\in E$}.
-		\end{itemize}\pause	
-		
-		
-\cco{Intuition.}
-   Material flowing through a transportation network, which originates at source and is sent to sink.	
-		\bigskip
-		
-	\centerline{\includegraphics[width=0.65\textwidth]{figures/p3.jpg}}
+		\frametitle{Introduction: Meta-Learning}
+
+		Meta learning = Learning to learn 
+
+		* \ccr{Meta} + X $\longrightarrow$ X about X
+
+		\centerline{\includegraphics[width=1.0\textwidth]{figs/meta-ml.png}}
 	}
-	
+	\frame{	
+		\frametitle{Introduction: Meta-Learning Background}
+		\textbf{A meta-learning model}
+		\begin{itemize}
+			\item  learns from \ccb{past learning experience}				
+			\item  can learn \ccb{future tasks} \ccr{better} based on prior knowledge
+		\end{itemize}
+
+		\textbf{Metrics for meta-learning}
+		\begin{itemize}
+			\item size of training-set for model convergence		
+			\item robustness of model
+			\item etc...
+		\end{itemize}
+		
+		}
 %//////////////////////////////////////////////////////////////////////////////////////////////%%4
 	\frame{
-		\frametitle{Minimum-cut problem}
+		\frametitle{Introduction: Few-shot Learning problem}
+	
 	\begin{definition}
 		An \ccp{$st$-cut (cut)} is a partition \ccb{$(A, B)$} of the nodes with \ccb{$s\in A$} and \ccb{$t \in B$}.
 	\end{definition}\pause
