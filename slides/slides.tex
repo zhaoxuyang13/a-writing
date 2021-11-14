@@ -536,315 +536,153 @@ $$}
 		\frametitle{MAML for cold-start recommendation}
 		
 		\ccr{User Preference Estimator.} the model that estimate users' preference for certain item.
-		\centerline{\includegraphics[width=0.6\textwidth]{figs/melu-pref.png}}
-
-
-   \ccm{\em Proof.} Can use either BFS or DFS to find an augmenting path in \ccb{$O(m)$} time.\pause
-	
-%\hspace{4cm}	$ \color{red}\begin{array}{l}
-%	\quad\text{\tiny $f (e)$ is an integer for every $e$}\\
-%\hspace{1.5cm}\swarrow
-%	\end{array} $
-%	\vspace{-2mm}
-	
-	\begin{block}{Integrality Theorem} There exists an integral max flow \ccb{$f^*$}
-    \end{block}\pause
-
-	\ccm{\em Proof.}
-     Since Ford–Fulkerson terminates, theorem follows from integrality invariant.
+		\centerline{\includegraphics[width=1\textwidth]{figs/melu-pref.png}}
 
 	}
 	%%
 	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%38
 	
 	\frame{
-		\frametitle{Ford–Fulkerson: exponential example}
-	\ccr{Q.} Is generic Ford–Fulkerson algorithm poly-time in input size?\pause
-%	\hspace{6.8cm}\ccr{ $ \begin{array}{l}
-%		\qquad\nearrow\\[-2mm]
-%		\tiny\text{$ m,n $ and $ \log C $}
-%		\end{array} $}	
-%		\vspace{-3mm}
+		\frametitle{User Preference Estimator.}
 		
-      \ccc{A.} No. If max capacity is \ccb{$C$}, then algorithm can take \ccb{$\geq C$} iterations.\pause
-
-      \bigskip
-
-      \begin{columns}
-      	\begin{column}{4cm}
-            \begin{itemize}\color{blue}
-      	\item $s \rightarrow v \rightarrow w \rightarrow t$\
-      	\item $s \rightarrow w \rightarrow v \rightarrow t$
-      	\item $s \rightarrow v \rightarrow w \rightarrow t$
-      	\item $s \rightarrow w \rightarrow v \rightarrow t$
-      	\item $\dots$
-      	\item $s \rightarrow v \rightarrow w \rightarrow t$
-      	\item $s \rightarrow w \rightarrow v \rightarrow t$
-      \end{itemize}
-      		
-      	\end{column}
-      	\begin{column}{6cm}
-      	\centerline{\includegraphics[width=\textwidth]{figures/p38}}
-      	\end{column}
-      \end{columns}
-	}
-
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%39
-
-	\frame{
-		\frametitle{Network flow: quiz 4}
-		The Ford–Fulkerson algorithm is guaranteed to terminate if the edge capacities are $\ldots$
-	\begin{enumerate}[A.]
-		\item Rational numbers.
-		\item Real numbers.
-		\item Both A and B.
-		\item Neither A nor B.
-	\end{enumerate}
-	}
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%40
-	
-	\frame{
-		\frametitle{Choosing good augmenting paths}
-	\ccp{Use care when selecting augmenting paths.}	\vspace{-3mm}
-	\begin{itemize}
-		\item Some choices lead to exponential algorithms.
-		\item Clever choices lead to polynomial algorithms.
-	\end{itemize}\pause\bigskip
-
-\ccp{Pathology.} When edge capacities can be irrational, no guarantee that Ford–Fulkerson terminates (or converges to a maximum flow)!
-\pause\bigskip
+		\begin{block}{Model layers of UPE} 
+			\begin{itemize}
+				\item \textbf{Input Layer} : get input information, including user's profile and item's information \pause
+				\item \textbf{Embedding Layer} : Embedding input information into embedding vectors. \pause
+				\item \textbf{Concatenate Layer}: Concatenate different vectors into one big vector. \pause
+				\item \textbf{Decision-Making Layers}: transform concatenated vector into characteristics  \pause
+				\item \textbf{Output Layer}: get output information in the form of preference probability, rating, dwell time,etc.
+			\end{itemize}
+		\end{block} \pause
 		
-\cco{Goal.}	Choose augmenting paths so that:\vspace{-3mm}
-\begin{itemize}
-	\item Can find augmenting paths efficiently.
-	\item Few iterations.
-\end{itemize}
-		
-	}
-	
-		%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%41
-	
-	\frame{
-		\frametitle{Choosing good augmenting paths}
-		\cco{Choose augmenting paths with:}	\vspace{-3mm}\pause
-		\begin{itemize}
-			\item Max bottleneck capacity(``fattest''). \pause
-			\item Sufficiently large bottleneck capacity.\pause
-			\item Fewest edges.
-		\end{itemize}
-		
-	\centerline{\includegraphics[width=\textwidth,height=5cm]{figures/p41}}
-	}
-	
-		%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%42
-
-    \frame{
-	\frametitle{Capacity-scaling algorithm}
-	\cco{Overview.}	 Choosing augmented paths with \ccp{large} bottleneck capacity.\pause
-	\begin{itemize}
-		\item Maintain scaling parameter \ccb{$\Delta$}.\pause
-		\item Let \ccb{$G_f(\Delta)$} be the part of the residual network containing
-		only those edges with capacity \ccb{$\geq \Delta$}.\pause
-		\item Any augmenting path in \ccb{$G_f(\Delta)$} has bottleneck capacity \ccb{$\geq \Delta$}.
-	\end{itemize}
-	
-	\bigskip\centerline{\includegraphics[width=0.8\textwidth]{figures/p42}}
-}
-	
-	
-	
-	%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%43
-	\frame{
-		\frametitle{Capacity-scaling algorithm}\vspace{5mm}
-
-\begin{exampleblock}{}
-    \begin{algorithm}[H]
-        \SetKwData{x}{x}\SetKwData{y}{y}\SetKwData{z}{z}
-        \SetKwFunction{CS}{\sc Capacity-Scaling}\SetKwFunction{Return}{\sc Return}\SetKwFunction{Init}{\sc Initialize}
-        \SetKwFunction{Up}{\sc Update}\SetKwFunction{Au}{\sc Augment}
-        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
-     \CS{$G$}
-     \BlankLine
-     \For{each edge $e \in E$}{$f(e)\leftarrow 0$}
-     $\Delta \leftarrow$ largest power of $2\leq C$\;
-	 \While{$\Delta\geq 1$}{
-      $G_{f}(\Delta) \leftarrow \Delta$-residual network of $G$ with respect to flow $f$\;
-      \While{there exists an $s\rightsquigarrow t$ path $P$ in $G_f (\Delta)$}{
-         $f \leftarrow$ \Au{$f$, $c$, $P$}\;
-         \Up{$G_\Delta(f)$}\;
-         }
-       $\Delta=\Delta/2$\;
-      }
-      \Return $f$\;
-     \end{algorithm}
-     \end{exampleblock}
-
-	}
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%44
-	\frame{
-		\frametitle{Capacity-scaling algorithm: proof of correctness}
-		\ccc{Assumption.} All edge capacities are integers between \ccb{$1$} and \ccb{$C$}.\pause\bigskip
-	
-	
-        \cco{Invariant.} The scaling parameter \ccb{$\Delta$} is a power of \ccb{$2$}.\pause
-
-        \ccm{\em Proof.} Initially a power of \ccb{$2$}; each phase divides \ccb{$\Delta$} by exactly \ccb{$2$}.\pause\bigskip
-	
-	    \cco{Integrality invariant.} Throughout the algorithm, every edge flow \ccb{$f(e)$} and residual capacity \ccb{$c_f (e)$} is an integer. \pause
-
-        \ccm{\em Proof.}  Same as for generic Ford–Fulkerson.
-
-        }
-
- %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%44
-
-        	\frame{
-		\frametitle{Capacity-scaling algorithm: proof of correctness}
-
-	
-    \begin{theorem}
-        If capacity-scaling algorithm terminates, then \ccb{$f$} is a max flow.
-    \end{theorem}\pause
-    	
-	\ccm{\em Proof.}\pause
-		\begin{itemize}
-			\item By integrality invariant, when \ccb{$\Delta=1$} \ccc{$\Rightarrow$} \ccb{$G_{f}(\Delta)=G_{f}$}
-			\item Upon termination of \ccb{$\Delta=1$} phase, there are no augmenting paths.
-			\item Result follows augmenting path theorem.
-		\end{itemize}
-		
+		This typical user preference estimator takes users' content and item content as input, and output preference prediction.
 	}
 
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%45
-
-	\frame{
-		\frametitle{Capacity-scaling algorithm: analysis of running time}
-
-	\begin{block}{Lemma 1}
-		 There are \ccb{$1+\left\lfloor\log _{2} C\right\rfloor$} scaling phases.	
-	\end{block}
-
-%\ccm{\em Proof.} Initially \ccb{$C / 2<\Delta \leq C$}; \ccb{$\Delta$} decreases by a factor of 2 in each iteration.
-
-\begin{block}{Lemma 2}
-There are \ccb{$\leq 2m$} augmentations per scaling phase.
-\end{block}
-
-\begin{block}{Lemma 3}
-	Let \ccb{$f$} be the flow at the end of a \ccb{$\Delta$}-scaling phase.\\
-	Then, the max-flow value \ccb{$\leq \operatorname{val}(f)+m \Delta$}.
-\end{block}
-%\ccm{\em Proof.} Next slide.\pause
-
-
-}
-
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%45
-
-	\frame{
-		\frametitle{Capacity-scaling algorithm: analysis of running time}
-
-\begin{theorem}
-	The capacity-scaling algorithm takes \ccb{$O(m^2 log C)$} time.
-\end{theorem}	\pause
-\ccm{\em Proof.}\vspace{-2mm}\pause
-\begin{itemize}
-	\item Lemma 1+ Lemma 2 \ccc{$\Rightarrow$} \ccb{$O(m \log C)$} augmentations.
-	\item Finding an augmenting path takes \ccb{$O(m)$} time.
-\end{itemize}	
-
-}
-
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%45
-
-    \frame{
-	 \frametitle{Capacity-scaling algorithm: analysis of running time}
-
-	\begin{block}{Lemma 1}
-		 There are \ccb{$1+\left\lfloor\log _{2} C\right\rfloor$} scaling phases.	
-	\end{block}\pause
-
-   \ccm{\em Proof.} Initially \ccb{$C / 2<\Delta \leq C$}; \ccb{$\Delta$} decreases by a factor of 2 in each iteration.
-
-}
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%45
-
-
-    \frame{
-	 \frametitle{Capacity-scaling algorithm: analysis of running time}
-
-    \begin{block}{Lemma 2}
-    There are \ccb{$\leq 2m$} augmentations per scaling phase.
-    \end{block}\pause
-
-    \ccm{\em Proof.} %\hspace{7cm}\ccr{ $ \begin{array}{l}
-%	\quad\tiny\text{or equivalently}\\[-2mm]
-%	\quad~\tiny\text{at the end}\\[-2mm]
-%	\tiny\text{of a 2$\Delta$-scaling phase}\\
-%	\qquad\swarrow\\
-%	\end{array} $}\vspace{-6mm}
-    \begin{itemize}
-	\item Let \ccb{$f$} be the flow at the beginning of a $\Delta$-scaling phase.
-	\item Lemma 3 \ccc{$\Rightarrow$} max-flow value  \ccb{$\leq {val}(f)+m(2 \Delta)$}.
-	\item Each augmentation in a $\Delta$-phase increases \ccb{$val(f)$} by at least \ccb{$\Delta$}.
-	
-\end{itemize}
-	
-	}
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
 	
 	\frame{
-		\frametitle{Capacity-scaling algorithm: analysis of running time}
-    \begin{block}{Lemma 3}
-	Let \ccb{$f$} be the flow at the end of a \ccb{$\Delta$}-scaling phase.\\
-	Then, the max-flow value \ccb{$\leq \operatorname{val}(f)+m \Delta$}.
-\end{block}\pause
-
-    \ccm{\em Proof.} \vspace{-4mm}\pause
-		\begin{itemize}
-			\item We show there exists a cut \ccb{$(A, B)$} such that \ccb{$cap(A, B)\leq val(f) + m \Delta$}.
-			\item Choose \ccb{$A$} to be the set of nodes reachable from \ccb{$s$} in \ccb{$G_f (\Delta)$}.
-			\item By definition of \ccb{$A: s \in A$}.
-			\item By definition of flow \ccb{$f: t \notin A$}.
-		\end{itemize}
-	\bigskip\pause
-
-	\begin{columns}
-	\hspace{2mm}	\begin{column}{6cm}
-	\ccb{$\begin{array}{ll}
-	val(f)&=\sum\limits_{e \text { out of } A} f(e)-\sum\limits_{e \text { in to } A} f(e)\\
-	%\ccr{ \begin{array}{l}
-%			~~\nearrow\\[-2mm]
-%			\tiny\text{flow}\\[-2mm]
-%			\tiny\text{value}\\[-2mm]			
-%			\tiny\text{lemma}
-%		\end{array} }
-	  &\geq \sum\limits_{e \text { out of } A}(c(e)-\Delta)-\sum\limits_{\text { e in to } A} \Delta\\
-	  &\geq \sum\limits_{e \text { out of } A} c(e)-\sum\limits_{e \text { out of } A} \Delta-\sum\limits_{e \text { in to } A} \Delta \\
-	   &\geq \operatorname{cap}(A, B)-m \Delta
-	   \end{array}$}
-		\end{column}
-	
-	\begin{column}{5cm}
-	\vspace{3mm}\centerline{\includegraphics[width=0.8\textwidth]{figures/p46}}
-	\end{column}
-	\end{columns}	
+		\frametitle{Meta-learned User Preference Estimator}
 		
+		\textbf{How to improve estimator's performance when \ccr{training set is small ?}}
+		
+		Apply MAML's approach to UPE ! \pause
+
+		\centerline{\includegraphics[width=1\textwidth]{figs/meta-upe.png}}
+
 	}
 
-%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%45
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
+	
+\frame{
+	\frametitle{Meta-learned User Preference Estimator}
+	
+	\begin{block}{Loss function of UPE}
+		$\mathcal{L}_i = \frac{1}{\left | H_i \right | } \sum_{j\in H_i} (y_{ij} - \hat{y}_{ij})^2 $
+	\end{block} \pause
+	
+	\centerline{\includegraphics[width=0.8\textwidth]{figs/melu-alg.png}}
+}
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
+	
+\frame{
+	\frametitle{Evidence Candidate Selection}
+
+	\begin{block}{Evidence Candidates}
+		\ccr{Evidence candidate} is a set of items that are presented to a new user, so that the model can get a quick understand of user's general preference for products.
+	\end{block} \pause
+
+	\textbf{We can user evidence candidates to}
+	\begin{itemize}
+		\item quickly understand user's preference by doing a survey on \ccb{evidence candidate}
+		\item collaborate with Meta-learning approach to further improve few-shot accuracy.
+	\end{itemize}
+	\centerline{\includegraphics[width=0.5\textwidth]{figs/melu-candi.png}}
+	
+}
+
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
+	
+\frame{
+	\frametitle{Evaluations}
+
+	MeLU is able to predict well with only a few input.
+
+	\textbf{The MAE of MeLU on the MovieLens and Bookcrossing datasets}
+	\centerline{\includegraphics[width=1\textwidth]{figs/melu-eva.png}}
+	
+}
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
+	
+\frame{
+	\frametitle{What can we learn from MeLU?}
+
+	\textbf{MAML is a general approach}
+	\begin{itemize}
+		\item we can apply MAML to any gradient-based model.
+		\item meta-learning approach can be useful in everyday tasks.
+	\end{itemize}
+	
+	\textbf{Field-specific approach can be taken}
+	\begin{itemize}
+		\item to improve learning performance
+		\item to focus on important metrics
+	\end{itemize}
+
+	
+}
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 7 pages
 
 	\section{More about meta-learning and MAML}
 
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%48
 	%%
 	\frame{
-		\frametitle{Shortest augmenting path}
-		\ccr{Q.} How to choose next augmenting path in Ford–Fulkerson? \pause
+		\frametitle{Meta-learning is not only MAML}
+		\textbf{MAML takes a optimization-based approach}
+		\begin{itemize}
+			\item MAML fundamentally produce a weight initialization, it learns a good initial parameter   \pause
+			\item not introduce any learned parameters more meta-learning  \pause
+			\item not actually learn any more general knowledge like \ccb{"how to learn a brand new task?"}
+		\end{itemize} \pause
 
-		\ccc{A.}  Pick one that uses the \ccp{fewest} edges.\pause
-
-
+		\textbf{There actually exists other approaches...}
+		\begin{itemize}
+			\item Model-based : a new model designed specifically for fast learning, which in its nature updates parameters rapidly. May use RNN and memory techniques. \pause
+			\item Metric-based : derive problem-dependent good metrics, to facilitate problem solving.
+		\end{itemize} 
+		
 	}
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%%48
+%%
+	\frame{
+		\frametitle{Meta-learning is a huge field}
+		\textbf{Meta-learning Landscape}
+		Overview of the meta-learning landscape including algorithm design (meta-optimizer, meta-representation, meta-objective), and applications.\\
+		\ccg{from Hospedales. et al. "Meta-Learning in Neural Networks: A Survey." }
+
+		\centerline{\includegraphics[width=1.2\textwidth]{figs/ml-landscape.png}}
+	}
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 3
+%%
+	\frame{
+		\frametitle{Meta-learning is a huge field}
+		\textbf{Matching network}
+		Matching network is one of the metric-based meta-learning works that targeting k-shot classification problems.
+
+		\centerline{\includegraphics[width=1.2\textwidth]{figs/matching-networks.png}}
+	}
+	
+%%%%//////////////////////////////////////////////////////////////////////////////////////////////%% 3
+%%
+	\frame{
+		\frametitle{Meta-learning is a huge field}
+		\textbf{Meta network}
+		Meta Networks , short for MetaNet, is a meta-learning model with architecture and training process designed for \ccy{rapid generalization across tasks}.
+		me
+		\centerline{\includegraphics[width=1.2\textwidth]{figs/meta-network.png}}
+	}
+	
+
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%58
 \end{document}
