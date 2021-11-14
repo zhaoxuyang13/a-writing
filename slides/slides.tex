@@ -65,12 +65,12 @@
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%3
 \frame{
 	\frametitle{What is Meta-Learning}
-	
+
 	\textbf{In traditional machine learning, we learn classifier f from input dataset.}
 
 	\centerline{\includegraphics[width=1.0\textwidth]{figs/intro.png}}
-	\pause
-	
+	%\pause
+
 	\textbf{But, can we learn the function F ? Or aka. Meta learning }
 
 }
@@ -78,92 +78,50 @@
 \frame{
 	\frametitle{Introduction: Meta-Learning}
 
-		\textbf{Meta learning = Learning to learn}
+	\textbf{Meta learning = Learning to learn}
 
-		* \ccr{Meta} + X $\longrightarrow$ X about X\pause
+	* \ccr{Meta} + X $\longrightarrow$ X about X%\pause
 
-		\centerline{\includegraphics[width=1.0\textwidth]{figs/meta-ml.png}}
-	}
-%%//////////////////////////////////////////////////////////////////////////////////////////////%%3
-	\frame{
-		\frametitle{Introduction: Meta-Learning}
-
-		\textbf{Define the goodness of function F}
-		
-		$ L(F) = sum_{n=1}^{N} l^n $
-
-		\textbf{Find the best function F* according to L(F)}
-		
-		\centerline{\includegraphics[width=1.0\textwidth]{figs/equation1.png.png}}
-		
-	}
-%%//////////////////////////////////////////////////////////////////////////////////////////////%%3
-	\frame{	
-		\frametitle{Introduction: Meta-Learning}
-		\textbf{A Meta-Learning Model}
-		\begin{itemize}
-			\item learns from \ccb{past learning experience}		\pause
-			\item can learn \ccb{future tasks} \ccr{better} based on prior knowledge\pause
-			\item learns the learning function during the learning process
-		\end{itemize}\pause
-
-		\textbf{Metrics for Meta-learning}
-		\begin{itemize}
-			\item size of training-set for model convergence	\pause	
-			\item robustness of model \pause
-			\item accuracy of the prediction
-			\item etc...
-		\end{itemize}
-		
-		}
-%//////////////////////////////////////////////////////////////////////////////////////////////%% 3
-\frame{
-	\frametitle{Introduction: Few-shot Learning problem}
-
-	\begin{definition}
-		In few-shot learning 
-	\end{definition}\pause
-
-
-
-\centerline{\includegraphics[width=0.65\textwidth]{figures/p4}}
-	}
-
-%%//////////////////////////////////////////////////////////////////////////////////////////////%%6
-
-\frame{
-	\frametitle{Few-shot Learning problem}
-
-	\cco{Min-cut problem.} Find a cut of minimum capacity.\bigskip\bigskip
-
-	\centerline{\includegraphics[width=0.6\textwidth]{figures/p6}}
+	\centerline{\includegraphics[width=1.0\textwidth]{figs/meta-ml.png}}
 }
+%%//////////////////////////////////////////////////////////////////////////////////////////////%%3
+\frame{
+	\frametitle{Introduction: Meta-Learning}
 
+	\textbf{Define the goodness of function F}
 
-%%//////////////////////////////////////////////////////////////////////////////////////////////%%7
-	\frame{
-		\frametitle{Few shot learning cases: Omniglot}
-	Omniglot : Few-shot Classification
-		\begin{enumerate}[\color{blue} A.]
-			\item $11~ (20+25 - 8 - 11 - 9 - 6)$
-			\item $34 ~(8+11+9+6)$
-			\item $45~ (20+ 25)$
-			\item $79~	(20+ 25+ 8+ 11+ 9+ 6)$
-		\end{enumerate}	
-		\vspace{5mm}
-			
-	\centerline{\includegraphics[width=0.8\textwidth]{figures/p7}}
-	
+	$ L(F) = sum_{n=1}^{N} l^n $
+
+	\textbf{Find the best function F* according to L(F)}
+
+	\centerline{\includegraphics[width=1.0\textwidth]{figs/equation1.png}}
+
 }
-	
-%%////////////////////////////////////////////////////////////////////////////////////////////%%
-\section{Model Agnostic Meta-Learning (MAML)}
+%%//////////////////////////////////////////////////////////////////////////////////////////////%%3
+\frame{
+	\frametitle{Introduction: Meta-Learning}
+	\textbf{A Meta-Learning Model}
+	\begin{itemize}
+		\item learns from \ccb{past learning experience}		%\pause
+		\item can learn \ccb{future tasks} \ccr{better} based on prior knowledge%\pause
+		\item learns the learning function during the learning process
+	\end{itemize}%\pause
+
+	\textbf{Metrics for Meta-learning}
+	\begin{itemize}
+		\item size of training-set for model convergence	%\pause
+		\item robustness of model %\pause
+		\item accuracy of the prediction
+		\item etc...
+	\end{itemize}
+
+}
 
 %
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%13
 
 \frame{
-	\frametitle{Start with Machine learning}
+	\frametitle{Introduction: Start with Machine learning}
 	\ccp{ Conventional supervised machine learning}
 	\vspace{-2mm}
 	\begin{itemize}
@@ -177,7 +135,7 @@
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%13
 
 \frame{
-	\frametitle{Problem triggered}
+	\frametitle{Introduction: Problem triggered}
 	\ccp{No enough dataset?}
 	\vspace{-2mm}
 	\begin{itemize}
@@ -200,7 +158,7 @@
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%14
 %
 \frame{
-	\frametitle{Meta learning}
+	\frametitle{Introduction: Meta learning}
 	\vspace{-2mm}
 	\ccp{Humans} vs \ccp{Machine}
 	\begin{columns}
@@ -227,29 +185,27 @@
 %%%//////////////////////////////////////////////////////////////////////////////////////////////%%15
 
 \frame{
-	\frametitle{Meta learning}
-	\ccp{Greedy algorithm.}
-	\vspace{-4mm}
+	\frametitle{Introduction: Meta learning}
+	\vspace{5mm}
 	\begin{itemize}
-		\ccg{	\item Start with $f (e) = 0$ for each edge $e \in E$.
-		\item Find an $s\rightsquigarrow t$ path $P$ where each edge has $f (e) < c(e)$.
-		\item Augment flow along path $P$.}
-		\item Humans, in contrast, learn new concepts and skills faster and more effectively.
-		      Children who have only seen trees and flowers a few times can distinguish them quickly. People able to
-		      ride a bike will most likely find a way to ride a motorcycle fast with little or even no demonstration
-	\end{itemize}\vspace{3mm}
+		\item 	\ccp{Machine learning} $\approx $ The ability to find a function f according to the data.
+		      \centerline{\includegraphics[width=0.1\textwidth]{figs/ml.png} $f($ \includegraphics[width=0.2\textwidth]{figs/cat1.png} $) = ``cat"$}
 
-	\centerline{\includegraphics[width=\textwidth]{figures/p15}}
+		      \vspace{5mm}
+		\item \ccp{Meta learning} $\approx $ According to the data, find the ability to find a function F of a function f.
+		      \centerline{F(\includegraphics[width=0.4\textwidth]{figs/training_data.png}) = f* \includegraphics[width=0.1\textwidth]{figs/ml.png}}
+
+	\end{itemize}
 }
 
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%24
 
-\section{Algorithms}
+\section{MAML}
 
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%25
 
 \frame{
-	\frametitle{Relationship between flows and cuts}
+	\frametitle{Model Agnostic Meta-Learning (MAML)}
 	\begin{lemma}
 		Let \ccb{$f$} be any flow and let \ccb{$(A,B)$} be any cut. Then, the value of the flow \ccb{$f$} equals the net flow across the cut \ccb{$(A,B)$}.
 		\ccb{\begin{equation*}
@@ -283,13 +239,13 @@
 			\centerline{\includegraphics[width=0.3\textwidth]{figs/taobao.jpeg}}
 		\end{column}
 	\end{columns}
-	\pause
+	%\pause
 
 	\ccp{Cold-Start problem.} \\
 	Modern recommendation systems use \ccp{Machine Learning} approach to provide \ccp{customized} user-experience.
 	Recommendation using ML is hard when \#users and \#items are still small. (\ccr{A Cold-Start}).
 
-	\pause
+	%\pause
 
 	\begin{definition}
 		\ccm{Few-Shot Learning}
@@ -316,13 +272,13 @@
 
 	\begin{block}{Model layers of UPE}
 		\begin{itemize}
-			\item \textbf{Input Layer} : get input information, including user's profile and item's information \pause
-			\item \textbf{Embedding Layer} : Embedding input information into embedding vectors. \pause
-			\item \textbf{Concatenate Layer}: Concatenate different vectors into one big vector. \pause
-			\item \textbf{Decision-Making Layers}: transform concatenated vector into characteristics  \pause
+			\item \textbf{Input Layer} : get input information, including user's profile and item's information %\pause
+			\item \textbf{Embedding Layer} : Embedding input information into embedding vectors. %\pause
+			\item \textbf{Concatenate Layer}: Concatenate different vectors into one big vector. %\pause
+			\item \textbf{Decision-Making Layers}: transform concatenated vector into characteristics  %\pause
 			\item \textbf{Output Layer}: get output information in the form of preference probability, rating, dwell time,etc.
 		\end{itemize}
-	\end{block} \pause
+	\end{block} %\pause
 
 	This typical user preference estimator takes users' content and item content as input, and output preference prediction.
 }
@@ -334,7 +290,7 @@
 
 	\textbf{How to improve estimator's performance when \ccr{training set is small ?}}
 
-	Apply MAML's approach to UPE ! \pause
+	Apply MAML's approach to UPE ! %\pause
 
 	\centerline{\includegraphics[width=1\textwidth]{figs/meta-upe.png}}
 
@@ -347,7 +303,7 @@
 
 	\begin{block}{Loss function of UPE}
 		$\mathcal{L}_i = \frac{1}{\left | H_i \right | } \sum_{j\in H_i} (y_{ij} - \hat{y}_{ij})^2 $
-	\end{block} \pause
+	\end{block} %\pause
 
 	\centerline{\includegraphics[width=0.8\textwidth]{figs/melu-alg.png}}
 }
@@ -359,7 +315,7 @@
 
 	\begin{block}{Evidence Candidates}
 		\ccr{Evidence candidate} is a set of items that are presented to a new user, so that the model can get a quick understand of user's general preference for products.
-	\end{block} \pause
+	\end{block} %\pause
 
 	\textbf{We can user evidence candidates to}
 	\begin{itemize}
@@ -410,14 +366,14 @@
 	\frametitle{Meta-learning is not only MAML}
 	\textbf{MAML takes a optimization-based approach}
 	\begin{itemize}
-		\item MAML fundamentally produce a weight initialization, it learns a good initial parameter   \pause
-		\item not introduce any learned parameters more meta-learning  \pause
+		\item MAML fundamentally produce a weight initialization, it learns a good initial parameter   %\pause
+		\item not introduce any learned parameters more meta-learning  %\pause
 		\item not actually learn any more general knowledge like \ccb{"how to learn a brand new task?"}
-	\end{itemize} \pause
+	\end{itemize} %\pause
 
 	\textbf{There actually exists other approaches}
 	\begin{itemize}
-		\item Model-based : a new model designed specifically for fast learning, which in its nature updates parameters rapidly. May use RNN and memory techniques. \pause
+		\item Model-based : a new model designed specifically for fast learning, which in its nature updates parameters rapidly. May use RNN and memory techniques. %\pause
 		\item Metric-based : derive problem-dependent good metrics, to facilitate problem solving.
 	\end{itemize}
 
