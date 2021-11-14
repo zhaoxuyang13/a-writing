@@ -205,18 +205,15 @@
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%25
 
 \frame{
-	\frametitle{Model Agnostic Meta-Learning (MAML)}
-	\begin{lemma}
-		Let \ccb{$f$} be any flow and let \ccb{$(A,B)$} be any cut. Then, the value of the flow \ccb{$f$} equals the net flow across the cut \ccb{$(A,B)$}.
-		\ccb{\begin{equation*}
-				v a l(f)=\sum\limits_{\text { out of } A} f(e)-\sum\limits_{e \text { in to } A} f(e)
-			\end{equation*}}
-	\end{lemma}
+	\frametitle{MAML algorithm description}
 
-	\bigskip
-	\centerline{\includegraphics[width=0.8\textwidth]{figures/p25}}
+	\textbf{ consider a model represented by a parameterized function $f_\theta$ with parameters $\theta$ } \\
+	\textbf{ consider adapting the model to new task $\tau_i$, the model's parameters $\theta$ trained to $\theta'_i$ } 
+
+	\begin{block}{update function using one gradient update.}
+		$\theta'_i = \theta - \alpha\nabla_\theta\mathcal{L}_{\tau_i}(f_\theta) $
+	\end{block}
 }
-
 
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%36
 
@@ -258,7 +255,7 @@
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%37
 
 \frame{
-	\frametitle{MAML for cold-start recommendation}
+	\frametitle{MAML for cold-start recommendation.}
 
 	\ccr{User Preference Estimator.} the model that estimate users' preference for certain item.
 	\centerline{\includegraphics[width=1\textwidth]{figs/melu-pref.png}}
@@ -288,7 +285,7 @@
 \frame{
 	\frametitle{Meta-learned User Preference Estimator}
 
-	\textbf{How to improve estimator's performance when \ccr{training set is small ?}}
+	\textbf{How to improve estimator's performance when training set is small ?}
 
 	Apply MAML's approach to UPE ! %\pause
 
@@ -311,7 +308,7 @@
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
 
 \frame{
-	\frametitle{Evidence Candidate Selection}
+	\frametitle{Evidence Candidate Selection.}
 
 	\begin{block}{Evidence Candidates}
 		\ccr{Evidence candidate} is a set of items that are presented to a new user, so that the model can get a quick understand of user's general preference for products.
@@ -329,7 +326,7 @@
 %%%%//////////////////////////////////////////////////////////////////////////////////////////////%%46
 
 \frame{
-	\frametitle{Evaluations}
+	\frametitle{Evaluations.}
 
 	MeLU is able to predict well with only a few input.
 
@@ -420,4 +417,5 @@
 }
 
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%58
+
 \end{document}
