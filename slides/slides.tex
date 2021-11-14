@@ -94,7 +94,7 @@
 
 	\textbf{Find the best function F* according to L(F)}
 
-	\centerline{\includegraphics[width=1.0\textwidth]{figs/equation1.png}}
+	$ F^* = argmin_F L(F) $
 
 }
 %%//////////////////////////////////////////////////////////////////////////////////////////////%%3
@@ -207,8 +207,8 @@
 \frame{
 	\frametitle{MAML algorithm description}
 
-	\textbf{ consider a model represented by a parameterized function $f_\theta$ with parameters $\theta$ } \\
-	\textbf{ consider adapting the model to new task $\tau_i$, the model's parameters $\theta$ trained to $\theta'_i$ } 
+	\textbf{Consider a model represented by a parameterized function $f_\theta$ with parameters $\theta$ } \\
+	\textbf{Consider adapting the model to new task $\tau_i$, the model's parameters $\theta$ trained to $\theta'_i$ } 
 
 	\begin{block}{update function using one gradient update.}
 		$\theta'_i = \theta - \alpha\nabla_\theta\mathcal{L}_{\tau_i}(f_\theta) $
