@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Max-Flow and Min-Cut Problems}{2}{0}{1}
+\beamer@sectionintoc {2}{Ford-Fulkerson Algorithm}{14}{0}{2}
+\beamer@sectionintoc {3}{Max-Flow Min-Cut Theorem}{35}{0}{3}
+\beamer@sectionintoc {4}{Capacity-Scaling Algorithm}{57}{0}{4}
+\beamer@sectionintoc {5}{Shortest Augmenting Paths}{103}{0}{5}
+\beamer@sectionintoc {6}{Dinitz' Algorithm}{128}{0}{6}
